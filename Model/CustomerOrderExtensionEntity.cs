@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using VirtoCommerce.Domain.Order.Model;
-using VirtoCommerce.Domain.ProductConfiguration.Model;
 using VirtoCommerce.OrderModule.Data.Model;
 using VirtoCommerce.Platform.Core.Common;
 

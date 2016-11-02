@@ -171,12 +171,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.ProductConfiguration\VirtoCommerce.Domain.ProductConfiguration\VirtoCommerce.Domain.ProductConfiguration.csproj">
-      <Project>{fc6deeb7-7046-488e-8cde-494b172d9803}</Project>
-      <Name>VirtoCommerce.Domain.ProductConfiguration</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Migrations\201610262104498_Initial.resx">
       <DependentUpon>201610262104498_Initial.cs</DependentUpon>
     </EmbeddedResource>
