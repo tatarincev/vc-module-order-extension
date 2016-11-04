@@ -1,0 +1,19 @@
+version: 1.0.{build}
+before_build:
+- cmd: nuget restore VirtoCommerce.OrderExtModule.sln
+build:
+  project: VirtoCommerce.OrderExtModule.sln
+  publish_wap_xcopy: true
+  verbosity: minimal
+test: off
+deploy:
+- provider: FTP
+  host: waws-prod-blu-055.ftp.azurewebsites.windows.net
+  protocol: ftp
+  username: FrameMyTv\plasmasoft
+  password:
+    secure: DH7PM/gXX1hIpL9VeOl/Qw==
+  folder: /site/wwwroot/modules/VirtoCommerce.OrderExtension/
+  application: VirtoCommerce.OrderExtModule.Web
+  on:
+    branch: master
