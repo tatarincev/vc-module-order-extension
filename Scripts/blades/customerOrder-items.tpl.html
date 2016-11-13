@@ -87,7 +87,7 @@
                             <td colspan="10">
                                 <table class="product-configuration-details">
                                     <tr ng-repeat="item in data.productConfiguration.productConfiguration.lines">
-                                        <td class="table-col"><img ng-if="item.preview.image != ''" class="cpc-image-preview" src="{{item.preview.image}}"></td>
+                                        <td class="table-col"><img ng-if="item.preview.image != null" alt="" class="cpc-image-preview" src="{{item.preview.image}}" /></td>
                                         <td class="table-col"><label>{{item.name}} : </label></td>
                                         <td class="table-col"><span ng-bind-html="toTrustedHTML(item.description)"></span></td>
                                     </tr>
