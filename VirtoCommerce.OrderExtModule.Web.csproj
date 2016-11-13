@@ -121,10 +121,6 @@
       <HintPath>packages\VirtoCommerce.Domain.2.17.0\lib\net451\VirtoCommerce.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="VirtoCommerce.Domain.ProductConfiguration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\VirtoCommerce.Domain.ProductConfiguration.dll</HintPath>
-    </Reference>
     <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.12.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\VirtoCommerce.OrderModule.Data.2.12.0\lib\net451\VirtoCommerce.OrderModule.Data.dll</HintPath>
       <Private>True</Private>
@@ -143,7 +139,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\VirtoCommerce.Domain.ProductConfiguration.dll" />
     <Content Include="module.manifest" />
     <Content Include="Scripts\blades\customerOrder-detail.js" />
     <Content Include="Scripts\blades\customerOrder-detail.tpl.html" />
@@ -226,6 +221,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="bin\" />
     <Folder Include="Content\" />
     <Folder Include="Services\" />
   </ItemGroup>
