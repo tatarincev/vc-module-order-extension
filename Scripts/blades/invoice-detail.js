@@ -14,10 +14,10 @@
             blade.initialize({
                 operationType: "Invoice",
                 status: 'New',
-                number: "Inv60826-00000",
+                number: "INV60826-00000",
                 createdDate: new Date(),
                 isApproved: true,
-                currency: "EUR"
+                currency: blade.currentEntity.currency
             });
         } else {
             blade.title = 'invoice details';

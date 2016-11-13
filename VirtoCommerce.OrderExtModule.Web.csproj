@@ -140,8 +140,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="module.manifest" />
+    <Content Include="Scripts\blades\customerOrder-detail.js" />
+    <Content Include="Scripts\blades\customerOrder-detail.tpl.html" />
+    <Content Include="Scripts\blades\customerOrder-items.js" />
+    <Content Include="Scripts\blades\customerOrder-items.tpl.html" />
+    <Content Include="Scripts\blades\customerOrder-list.js" />
+    <Content Include="Scripts\blades\customerOrder-list.tpl.html" />
+    <Content Include="Scripts\blades\filter-detail.js" />
+    <Content Include="Scripts\blades\filter-detail.tpl.html" />
     <Content Include="Scripts\blades\invoice-detail.js" />
     <Content Include="Scripts\blades\invoice-detail.tpl.html" />
+    <Content Include="Scripts\blades\operation-comment.js" />
+    <Content Include="Scripts\blades\operation-comment.tpl.html" />
+    <Content Include="Scripts\blades\operation-detail.js" />
+    <Content Include="Scripts\blades\payment-detail.js" />
+    <Content Include="Scripts\blades\payment-detail.tpl.html" />
+    <Content Include="Scripts\blades\shipment-detail.js" />
+    <Content Include="Scripts\blades\shipment-detail.tpl.html" />
+    <Content Include="Scripts\blades\shipment-items.js" />
+    <Content Include="Scripts\blades\shipment-items.tpl.html" />
+    <Content Include="Scripts\dialogs\cancelOperation-dialog.tpl.html" />
+    <Content Include="Scripts\order.js" />
+    <Content Include="Scripts\resources\customerOrders.js" />
+    <Content Include="Scripts\resources\fulfillmentCenters.js" />
+    <Content Include="Scripts\resources\stores.js" />
     <Content Include="Scripts\tree-template.html" />
     <Content Include="Scripts\customer-order-extension.js" />
     <Content Include="packages.config" />
@@ -154,6 +176,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\widgets\customerOrder-address-widget.js" />
+    <Content Include="Scripts\widgets\customerOrder-address-widget.tpl.html" />
+    <Content Include="Scripts\widgets\customerOrder-items-widget.js" />
+    <Content Include="Scripts\widgets\customerOrder-items-widget.tpl.html" />
+    <Content Include="Scripts\widgets\customerOrder-totals-widget.js" />
+    <Content Include="Scripts\widgets\customerOrder-totals-widget.tpl.html" />
+    <Content Include="Scripts\widgets\dashboard\statistics-templates.html" />
+    <Content Include="Scripts\widgets\dashboard\statistics-widget.js" />
+    <Content Include="Scripts\widgets\operation-comment-widget.js" />
+    <Content Include="Scripts\widgets\operation-comment-widget.tpl.html" />
+    <Content Include="Scripts\widgets\operation-tree-widget.js" />
+    <Content Include="Scripts\widgets\operation-tree-widget.tpl.html" />
+    <Content Include="Scripts\widgets\payment-address-widget.js" />
+    <Content Include="Scripts\widgets\payment-address-widget.tpl.html" />
+    <Content Include="Scripts\widgets\shipment-address-widget.js" />
+    <Content Include="Scripts\widgets\shipment-address-widget.tpl.html" />
+    <Content Include="Scripts\widgets\shipment-items-widget.js" />
+    <Content Include="Scripts\widgets\shipment-items-widget.tpl.html" />
+    <Content Include="Scripts\widgets\shipment-totals-widget.js" />
+    <Content Include="Scripts\widgets\shipment-totals-widget.tpl.html" />
+    <Content Include="Scripts\wizards\newOperation\newOperation-wizard.js" />
+    <Content Include="Scripts\wizards\newOperation\newOperation-wizard.tpl.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -161,8 +205,14 @@
     <Compile Include="Migrations\201610262104498_Initial.Designer.cs">
       <DependentUpon>201610262104498_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611130422125_productconfigurations.cs" />
+    <Compile Include="Migrations\201611130422125_productconfigurations.Designer.cs">
+      <DependentUpon>201611130422125_productconfigurations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CustomerOrderExtensionEntity.cs" />
+    <Compile Include="Model\OrderLineItemExtension.cs" />
+    <Compile Include="Model\OrderLineItemExtensionEntity.cs" />
     <Compile Include="Model\InvoiceEntity.cs" />
     <Compile Include="OrderExtensionRepository.cs" />
     <Compile Include="Model\CustomerOrderExtension.cs" />
@@ -171,8 +221,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VirtoCommerce.ProductConfiguration\VirtoCommerce.Domain.ProductConfiguration\VirtoCommerce.Domain.ProductConfiguration.csproj">
+      <Project>{fc6deeb7-7046-488e-8cde-494b172d9803}</Project>
+      <Name>VirtoCommerce.Domain.ProductConfiguration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Migrations\201610262104498_Initial.resx">
       <DependentUpon>201610262104498_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611130422125_productconfigurations.resx">
+      <DependentUpon>201611130422125_productconfigurations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -51,6 +51,10 @@ namespace VirtoCommerce.OrderExtModule.Web
             AbstractTypeFactory<CustomerOrderEntity>.OverrideType<CustomerOrderEntity, CustomerOrderExtensionEntity>();
             AbstractTypeFactory<CustomerOrder>.OverrideType<CustomerOrder, CustomerOrderExtension>()
                                            .WithFactory(() => new CustomerOrderExtension { OperationType = "CustomerOrder" });
+
+            AbstractTypeFactory<LineItem>.OverrideType<LineItem, OrderLineItemExtension>();
+            AbstractTypeFactory<LineItemEntity>.OverrideType<LineItemEntity, OrderLineItemExtensionEntity>();
+
             //Thats need for PolymorphicOperationJsonConverter for API deserialization
             AbstractTypeFactory<IOperation>.RegisterType<Invoice>();
         }

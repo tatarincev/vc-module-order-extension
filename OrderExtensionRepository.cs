@@ -41,6 +41,12 @@ namespace VirtoCommerce.OrderExtModule.Web
                                                  .WillCascadeOnDelete(true);
             #endregion
 
+            #region OrderLineItemExtension
+            modelBuilder.Entity<OrderLineItemExtensionEntity>().HasKey(x => x.Id)
+                .Property(x => x.Id);
+            modelBuilder.Entity<OrderLineItemExtensionEntity>().ToTable("OrderLineItemExtension");
+            #endregion
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -53,6 +59,10 @@ namespace VirtoCommerce.OrderExtModule.Web
         public IQueryable<InvoiceEntity> Invoices
         {
             get { return GetAsQueryable<InvoiceEntity>(); }
+        }
+
+        public IQueryable<OrderLineItemExtensionEntity> OrderLineItemExtended {
+            get { return GetAsQueryable<OrderLineItemExtensionEntity>(); }
         }
 
         public override CustomerOrderEntity[] GetCustomerOrdersByIds(string[] ids, CustomerOrderResponseGroup responseGroup)

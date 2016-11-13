@@ -12,12 +12,12 @@ angular.module(moduleName, [])
 
 	    var foundTemplate = knownOperations.getOperation('CustomerOrder');
 	    if (foundTemplate) {
-	        foundTemplate.detailBlade.metaFields.push(
-                {
-                    name: 'newField',
-                    title: "New field",
-                    valueType: "ShortText"
-                });
+	        //foundTemplate.detailBlade.metaFields.push(
+            //    {
+            //        name: 'newField',
+            //        title: "New field",
+            //        valueType: "ShortText"
+            //    });
 
 	        foundTemplate.detailBlade.knownChildrenOperations.push('Invoice');
 	    }

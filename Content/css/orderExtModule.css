@@ -1,0 +1,29 @@
+﻿.ui-grid-render-container-body .ui-grid-row:nth-child(odd) .ui-grid-cell.order-line-approved {
+    background-color: #c1ecd4 !important;
+}
+
+    .ui-grid-render-container-body .ui-grid-row:nth-child(odd) .ui-grid-cell.order-line-approved:hover {
+        background-color: #c1ecd4 !important;
+    }
+
+.ui-grid-render-container-body .ui-grid-row:nth-child(even) .ui-grid-cell.order-line-approved {
+    background-color: #c1ecd4 !important;
+}
+
+    .ui-grid-render-container-body .ui-grid-row:nth-child(even) .ui-grid-cell.order-line-approved:hover {
+        background-color: #c1ecd4 !important;
+    }
+
+.ui-grid-render-container-body .ui-grid-row:nth-child(2n+1) .ui-grid-cell.__selected.order-line-approved {
+    background-color: #abdbc0 !important;
+}
+
+.ui-grid-render-container-body .ui-grid-row:nth-child(2n) .ui-grid-cell.__selected.order-line-approved {
+    background-color: #abdbc0 !important;
+}
+
+.order-summary {
+    border: 1px solid grey;
+    margin-bottom: 20px;
+    padding: 10px;
+}
