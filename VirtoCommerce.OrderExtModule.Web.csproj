@@ -139,6 +139,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\orderExtModule.css" />
+    <Content Include="Content\logo.png" />
     <Content Include="module.manifest" />
     <Content Include="Scripts\blades\customerOrder-detail.js" />
     <Content Include="Scripts\blades\customerOrder-detail.tpl.html" />
@@ -222,7 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Content\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
