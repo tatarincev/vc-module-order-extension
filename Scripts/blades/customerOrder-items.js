@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.customerOrderItemsController', ['$scope', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'virtoCommerce.catalogModule.items', 'virtoCommerce.productConfigurationModule.productConfigurations', 'virtoCommerce.pricingModule.prices',
-    function ($scope, bladeNavigationService, dialogService, items, productConfigurations, prices) {
+.controller('virtoCommerce.orderModule.customerOrderItemsController', ['$scope', '$sce', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'virtoCommerce.catalogModule.items', 'virtoCommerce.productConfigurationModule.productConfigurations', 'virtoCommerce.pricingModule.prices',
+    function ($scope, $sce, bladeNavigationService, dialogService, items, productConfigurations, prices) {
     var blade = $scope.blade;
     blade.updatePermission = 'order:update';
 
@@ -12,36 +12,35 @@
     $scope.pageSettings.numPages = 5;
     $scope.pageSettings.itemsPerPageCount = 4;
 
+    $scope.toTrustedHTML = function (html) {
+        return $sce.trustAsHtml(html);
+    }
+
     var selectedProducts = [];
 
-    // simple and advanced filtering
-    var filter = $scope.filter = {};
-    var filter = blade.filter = $scope.filter = {}
-
     blade.refresh = function () {
-        blade.selectedAll = false;
-
         angular.forEach(blade.currentEntity.items, function (item) {
 
-            var criteria = {
-                id: item.productConfigurationRequestId,
-                isordered: true
-            };
-            if (filter.current) {
-                angular.extend(criteria, filter.current);
+            if (item.productConfigurationRequestId != null) {
+                var criteria = {
+                    id: item.productConfigurationRequestId,
+                    isordered: true
+                };
+
+                productConfigurations.search(criteria, function (data) {
+                    blade.isLoading = false;
+                    if (data.productConfigurationRequests.length > 0) {
+                        item.productConfiguration = data.productConfigurationRequests[0];
+                    }
+                },
+               function (error) {
+                   bladeNavigationService.setError('Error ' + error.status, blade);
+               });
             }
-
-            productConfigurations.search(criteria, function (data) {
-                blade.isLoading = false;
-                if (data.productConfigurationRequests.length > 0) {
-                    item.productConfiguration = data.productConfigurationRequests[0];
-                }
-            },
-           function (error) {
-               bladeNavigationService.setError('Error ' + error.status, blade);
-           });
-
         });
+
+        blade.selectedAll = false;
+        blade.isLoading = false;
     };
 
     function addProductsToOrder(products) {

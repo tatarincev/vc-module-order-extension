@@ -121,6 +121,10 @@
       <HintPath>packages\VirtoCommerce.Domain.2.17.0\lib\net451\VirtoCommerce.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="VirtoCommerce.Domain.ProductConfiguration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\VirtoCommerce.Domain.ProductConfiguration.dll</HintPath>
+    </Reference>
     <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.12.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\VirtoCommerce.OrderModule.Data.2.12.0\lib\net451\VirtoCommerce.OrderModule.Data.dll</HintPath>
       <Private>True</Private>
@@ -139,6 +143,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\VirtoCommerce.Domain.ProductConfiguration.dll" />
+    <Content Include="lib\VirtoCommerce.Domain.ProductConfiguration.pdb" />
     <Content Include="module.manifest" />
     <Content Include="Scripts\blades\customerOrder-detail.js" />
     <Content Include="Scripts\blades\customerOrder-detail.tpl.html" />
@@ -223,12 +229,6 @@
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.ProductConfiguration\VirtoCommerce.Domain.ProductConfiguration\VirtoCommerce.Domain.ProductConfiguration.csproj">
-      <Project>{fc6deeb7-7046-488e-8cde-494b172d9803}</Project>
-      <Name>VirtoCommerce.Domain.ProductConfiguration</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610262104498_Initial.resx">

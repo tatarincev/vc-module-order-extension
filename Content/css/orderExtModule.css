@@ -22,8 +22,21 @@
     background-color: #abdbc0 !important;
 }
 
+.product-configuration-details {
+    width: 100%;
+    border-collapse: collapse;
+}
+
 .order-summary {
     border: 1px solid grey;
     margin-bottom: 20px;
     padding: 10px;
+}
+
+.cpc-item {
+    margin-bottom: 10px;
+}
+
+.cpc-image-preview {
+    width: 200px;
 }

@@ -80,15 +80,18 @@
                         </tr>
                         <tr class="table-item" ng-class="{'__selected': $index === blade.selectedNodeId}" ng-click='blade.selectedNodeId = $index'>
                             <td class="table-head" colspan="10" ng-click="openItemDetail(data)">
-                                {{data.name}}
+                                {{data.name}}<span ng-if="data.productConfiguration.number != ''"> - {{data.productConfiguration.number}}</span>
                             </td>
                         </tr>
                         <tr ng-repeat-end class="table-item" ng-class="{'__selected': $index === blade.selectedNodeId}">
-                            <td>
-                                <div class="product-configuration-details">
-                                    {{data.productConfiguration.number}}
-                                    {{data.productConfiguration.lines}}
-                                </div>
+                            <td colspan="10">
+                                <table class="product-configuration-details">
+                                    <tr ng-repeat="item in data.productConfiguration.productConfiguration.lines">
+                                        <td class="table-col"><img class="cpc-image-preview" src="{{item.preview.image}}"></td>
+                                        <td class="table-col"><label>{{item.name}} : </label></td>
+                                        <td class="table-col"><span ng-bind-html="toTrustedHTML(item.description)"></span></td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
                     </tbody>
