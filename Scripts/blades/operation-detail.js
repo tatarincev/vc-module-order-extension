@@ -101,7 +101,7 @@
                     title: "orders.blades.newOperation-wizard.title",
                     subtitle: 'orders.blades.newOperation-wizard.subtitle',
                     controller: 'virtoCommerce.orderModule.newOperationWizardController',
-                    template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/wizards/newOperation/newOperation-wizard.tpl.html'
+                    template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/wizards/newOperation/newOperation-wizard.tpl.html'
                 };
                 bladeNavigationService.showBlade(newBlade, blade);
             },
@@ -171,7 +171,7 @@
                         }
                     }
                 };
-                dialogService.showDialog(dialog, 'Modules/$(virtoCommerce.orderExtension)/Scripts/dialogs/cancelOperation-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
+                dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/cancelOperation-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
             },
             canExecuteMethod: function () {
                 return blade.currentEntity && !blade.currentEntity.isCancelled;

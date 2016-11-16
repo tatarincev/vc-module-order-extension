@@ -8,7 +8,7 @@
 			title: 'orders.widgets.operation-comment.blade-title',
 			currentEntity: $scope.operation,
 			controller: 'virtoCommerce.orderModule.orderOperationCommentDetail',
-			template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/operation-comment.tpl.html'
+			template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/operation-comment.tpl.html'
 		};
 		bladeNavigationService.showBlade(newBlade, $scope.blade);
 	};

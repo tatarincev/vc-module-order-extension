@@ -17,7 +17,7 @@
                 currentEntity: blade.currentEntity,
                 recalculateFn: blade.recalculate,
                 controller: 'virtoCommerce.orderModule.customerOrderItemsController',
-                template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/customerOrder-items.tpl.html'
+                template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/customerOrder-items.tpl.html'
             };
             bladeNavigationService.showBlade(newBlade, blade);
         });

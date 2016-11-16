@@ -17,7 +17,7 @@
                 number: "INV60826-00000",
                 createdDate: new Date(),
                 isApproved: true,
-                currency: blade.currentEntity.currency
+                currency: 'USD'
             });
         } else {
             blade.title = 'invoice details';
@@ -36,18 +36,48 @@
             bladeNavigationService.showBlade(newBlade, blade);
         };
 
-        // load customers
-        members.search(
-           {
-               memberType: 'Contact',
-               sort: 'fullName:asc',
-               take: 1000
-           },
-           function (data) {
-               blade.contacts = data.results;
-           });
+        //// load customers
+        //members.search(
+        //   {
+        //       memberType: 'Contact',
+        //       sort: 'fullName:asc',
+        //       take: 5000
+        //   },
+        //   function (data) {
+        //       blade.contacts = data.results;
+        //   });
 
-        blade.resetCustomerName = function (newVal) {
-            blade.currentEntity.customerName = newVal ? newVal.fullName : undefined;
-        };
+        //blade.resetCustomerName = function (newVal) {
+        //    blade.currentEntity.customerName = newVal ? newVal.fullName : undefined;
+        //};
+
+        //// load employees
+        //members.search(
+        //   {
+        //       memberType: 'Employee',
+        //       sort: 'fullName:asc',
+        //       take: 5000
+        //   },
+        //   function (data) {
+        //       blade.employees = data.results;
+        //   });
+
+        //blade.resetEmployeeName = function (newVal) {
+        //    blade.currentEntity.employeeName = newVal ? newVal.fullName : undefined;
+        //};
+
+        //// load organizations
+        //members.search(
+        //   {
+        //       memberType: 'Organization',
+        //       sort: 'fullName:asc',
+        //       take: 5000
+        //   },
+        //   function (data) {
+        //       blade.organizations = data.results;
+        //   });
+
+        //blade.resetOrganizationName = function (newVal) {
+        //    blade.currentEntity.organizationName = newVal ? newVal.fullName : undefined;
+        //};
     }]);

@@ -1,4 +1,17 @@
-﻿<script type="text/ng-template" id="order-statistics-revenue.html">
+﻿<script type="text/ng-template" id="order-statistics-general.html">
+    <div class="gridster-cnt" ng-click="openBlade()">
+        <div class="cnt-inner">
+            <h3>Pending Items</h3>
+
+                <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersPendingApproval}} Order(s) Pending Approval</div>
+                <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersInProcess}} Order(s) In Process</div>
+                <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersReadyBilled}} Order(s) Ready to be Billed</div>
+                <div>{{$storage.ordersDashboardStatistics.PendingItems.CustomerServiceMessages}} Customer Service Message(s) Pending</div>
+
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="order-statistics-revenue.html">
     <div class="gridster-cnt">
         <div class="cnt-inner">
             <div class="list-count">

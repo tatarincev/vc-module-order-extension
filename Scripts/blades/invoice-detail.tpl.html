@@ -69,6 +69,28 @@
     </div>
 </div>
 
+<!--<script type="text/ng-template" id="organizationSelector.html">
+    <div class="form-input">
+        <ui-select ng-model="blade.currentEntity.organizationId" ng-change="blade.resetOrganizationName($select.selected)">
+            <ui-select-match allow-clear placeholder="Select organization">{{$select.selected.fullName}}</ui-select-match>
+            <ui-select-choices repeat="x.id as x in blade.organizations | filter: { fullName: $select.search }">
+                <span ng-bind-html="x.fullName | highlight: $select.search"></span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</script>
+
+<script type="text/ng-template" id="employeeSelector.html">
+    <div class="form-input">
+        <ui-select ng-model="blade.currentEntity.employeeId" ng-change="blade.resetEmployeeName($select.selected)">
+            <ui-select-match allow-clear placeholder="Select employee">{{$select.selected.fullName}}</ui-select-match>
+            <ui-select-choices repeat="x.id as x in blade.employees | filter: { fullName: $select.search }">
+                <span ng-bind-html="x.fullName | highlight: $select.search"></span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</script>
+
 <script type="text/ng-template" id="customerSelector.html">
     <div class="form-input">
         <ui-select ng-model="blade.currentEntity.customerId" ng-change="blade.resetCustomerName($select.selected)">
@@ -78,4 +100,4 @@
             </ui-select-choices>
         </ui-select>
     </div>
-</script>
+</script>-->

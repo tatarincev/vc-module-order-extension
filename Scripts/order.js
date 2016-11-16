@@ -19,7 +19,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
                           title: 'orders.blades.customerOrder-list.title',
                           //subtitle: 'Manage Orders',
                           controller: 'virtoCommerce.orderModule.customerOrderListController',
-                          template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/customerOrder-list.tpl.html',
+                          template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/customerOrder-list.tpl.html',
                           isClosingDisabled: true
                       };
                       bladeNavigationService.showBlade(blade);
@@ -61,10 +61,10 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	function ($rootScope, $http, $compile, mainMenuService, widgetService, bladeNavigationService, $state, $localStorage, customerOrders, scopeResolver, stores, knownOperations) {
 	    //Register module in main menu
 	    var menuItem = {
-	        path: 'browse/orders',
-	        icon: 'fa fa-file-text',
+	        path: 'orders',
+	        icon: 'fa fa-cart-arrow-down',
 	        title: 'orders.main-menu-title',
-	        priority: 90,
+	        priority: 3,
 	        action: function () { $state.go('workspace.orderModule'); },
 	        permission: 'order:access'
 	    };
@@ -76,7 +76,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	        treeTemplateUrl: 'orderOperationDefault.tpl.html',
 	        detailBlade: {
 	            id: 'orderDetail',
-	            template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/customerOrder-detail.tpl.html',
+	            template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/customerOrder-detail.tpl.html',
 	            knownChildrenOperations: ['Shipment', 'PaymentIn'],
 	            metaFields: [
                     {
@@ -132,7 +132,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	        description: 'orders.blades.newOperation-wizard.menu.payment-operation.description',
 	        // treeTemplateUrl: 'orderOperationDefault.tpl.html',
 	        detailBlade: {
-	            template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/payment-detail.tpl.html',
+	            template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/payment-detail.tpl.html',
 	            metaFields: [
                     {
                         name: 'number',
@@ -155,7 +155,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	        type: 'Shipment',
 	        description: 'orders.blades.newOperation-wizard.menu.shipment-operation.description',
 	        detailBlade: {
-	            template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/shipment-detail.tpl.html',
+	            template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/shipment-detail.tpl.html',
 	            metaFields: [
                     {
                         name: 'number',
@@ -196,41 +196,41 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    //Register widgets
 	    var operationItemsWidget = {
 	        controller: 'virtoCommerce.orderModule.customerOrderItemsWidgetController',
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/customerOrder-items-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/customerOrder-items-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(operationItemsWidget, 'customerOrderDetailWidgets');
 
 	    var shipmentItemsWidget = {
 	        controller: 'virtoCommerce.orderModule.shipmentItemsWidgetController',
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/shipment-items-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/shipment-items-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(shipmentItemsWidget, 'shipmentDetailWidgets');
 
 
 	    var customerOrderAddressWidget = {
 	        controller: 'virtoCommerce.orderModule.customerOrderAddressWidgetController',
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/customerOrder-address-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/customerOrder-address-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(customerOrderAddressWidget, 'customerOrderDetailWidgets');
 
 	    var customerOrderTotalsWidget = {
 	        controller: 'virtoCommerce.orderModule.customerOrderTotalsWidgetController',
 	        size: [2, 2],
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/customerOrder-totals-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/customerOrder-totals-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(customerOrderTotalsWidget, 'customerOrderDetailWidgets');
 
 
 	    var operationCommentWidget = {
 	        controller: 'virtoCommerce.orderModule.operationCommentWidgetController',
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/operation-comment-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/operation-comment-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(operationCommentWidget, 'customerOrderDetailWidgets');
 
 	    var shipmentAddressWidget = {
 	        controller: 'virtoCommerce.orderModule.shipmentAddressWidgetController',
 	        size: [2, 1],
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/shipment-address-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/shipment-address-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(shipmentAddressWidget, 'shipmentDetailWidgets');
 
@@ -238,14 +238,14 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    var shipmentTotalWidget = {
 	        controller: 'virtoCommerce.orderModule.shipmentTotalsWidgetController',
 	        size: [2, 1],
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/shipment-totals-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/shipment-totals-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(shipmentTotalWidget, 'shipmentDetailWidgets');
 
 	    widgetService.registerWidget({
 	        controller: 'virtoCommerce.orderModule.paymentAddressWidgetController',
 	        size: [2, 1],
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/payment-address-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/payment-address-widget.tpl.html'
 	    }, 'paymentDetailWidgets');
 
 	    var dynamicPropertyWidget = {
@@ -260,7 +260,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    var operationsTreeWidget = {
 	        controller: 'virtoCommerce.orderModule.operationTreeWidgetController',
 	        size: [4, 3],
-	        template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/operation-tree-widget.tpl.html'
+	        template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/operation-tree-widget.tpl.html'
 	    };
 	    widgetService.registerWidget(operationsTreeWidget, 'customerOrderDetailWidgets');
 
@@ -306,8 +306,13 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	        size: [3, 2],
 	        template: 'order-statistics-orderValueByQuarter.html'
 	    }, 'mainDashboard');
+	    widgetService.registerWidget({
+	        controller: statisticsController,
+	        size: [6, 2],
+	        template: 'order-statistics-general.html'
+	    }, 'mainDashboard');
 
-	    $http.get('Modules/$(virtoCommerce.orderExtension)/Scripts/widgets/dashboard/statistics-templates.html').then(function (response) {
+	    $http.get('Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/dashboard/statistics-templates.html').then(function (response) {
 	        // compile the response, which will put stuff into the cache
 	        $compile(response.data);
 	    });
@@ -437,6 +442,39 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                    },
 	                    "formatters": {}
 	                };
+
+	                //get Pending Items
+	                data.PendingItems = {
+	                    "OrdersPendingApproval": 0,
+	                    "OrdersInProcess": 0,
+	                    "OrdersReadyBilled": 0,
+	                    "CustomerServiceMessages": 0
+	                }
+
+	                var criteria = {
+	                    statuses: ['New'],
+	                    take: 5000
+	                };
+
+	                customerOrders.search(criteria, function (apiData) {
+	                    data.PendingItems.OrdersPendingApproval = apiData.totalCount;
+	                },
+                    function (error) {
+                       bladeNavigationService.setError('Error ' + error.status, blade);
+                    });
+
+	                var criteria = {
+	                    statuses: ['Processing'],
+	                    take: 5000
+	                };
+
+	                customerOrders.search(criteria, function (apiData) {
+	                    data.PendingItems.OrdersInProcess = apiData.totalCount;
+	                },
+                    function (error) {
+                       bladeNavigationService.setError('Error ' + error.status, blade);
+                    });
+
 
 	                $localStorage.ordersDashboardStatistics = data;
 	            },

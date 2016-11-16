@@ -121,7 +121,7 @@ function ($scope, $localStorage, customerOrders, bladeUtils, dialogService, auth
         var newBlade = {
             id: 'filterDetail',
             controller: 'virtoCommerce.orderModule.filterDetailController',
-            template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/filter-detail.tpl.html',
+            template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/filter-detail.tpl.html',
         };
         angular.extend(newBlade, bladeData);
         bladeNavigationService.showBlade(newBlade, blade);

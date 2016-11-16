@@ -15,7 +15,7 @@
                 subtitle: 'orders.blades.shipment-items.subtitle',
                 currentEntity: blade.currentEntity,
                 controller: 'virtoCommerce.orderModule.shipmentItemsController',
-                template: 'Modules/$(virtoCommerce.orderExtension)/Scripts/blades/shipment-items.tpl.html'
+                template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/shipment-items.tpl.html'
             };
             bladeNavigationService.showBlade(newBlade, blade);
         });

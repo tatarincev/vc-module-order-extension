@@ -211,6 +211,18 @@
     <Compile Include="Migrations\201611130422125_productconfigurations.Designer.cs">
       <DependentUpon>201611130422125_productconfigurations.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611141919583_InvoiceEmployee.cs" />
+    <Compile Include="Migrations\201611141919583_InvoiceEmployee.Designer.cs">
+      <DependentUpon>201611141919583_InvoiceEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611141924359_InvoiceOrganization.cs" />
+    <Compile Include="Migrations\201611141924359_InvoiceOrganization.Designer.cs">
+      <DependentUpon>201611141924359_InvoiceOrganization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611141948435_InvoiceDataAnnotations.cs" />
+    <Compile Include="Migrations\201611141948435_InvoiceDataAnnotations.Designer.cs">
+      <DependentUpon>201611141948435_InvoiceDataAnnotations.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CustomerOrderExtensionEntity.cs" />
     <Compile Include="Model\OrderLineItemExtension.cs" />
@@ -222,16 +234,22 @@
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610262104498_Initial.resx">
       <DependentUpon>201610262104498_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611130422125_productconfigurations.resx">
       <DependentUpon>201611130422125_productconfigurations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611141919583_InvoiceEmployee.resx">
+      <DependentUpon>201611141919583_InvoiceEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611141924359_InvoiceOrganization.resx">
+      <DependentUpon>201611141924359_InvoiceOrganization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611141948435_InvoiceDataAnnotations.resx">
+      <DependentUpon>201611141948435_InvoiceDataAnnotations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
