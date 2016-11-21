@@ -2,12 +2,18 @@
     <div class="gridster-cnt" ng-click="openBlade()">
         <div class="cnt-inner">
             <h3>Pending Items</h3>
-
                 <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersPendingApproval}} Order(s) Pending Approval</div>
                 <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersInProcess}} Order(s) In Process</div>
                 <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersReadyBilled}} Order(s) Ready to be Billed</div>
                 <div>{{$storage.ordersDashboardStatistics.PendingItems.CustomerServiceMessages}} Customer Service Message(s) Pending</div>
-
+                <div>
+                    <script>
+(function(f,r,a,m,e,my,t,v){my=r.getElementsByTagName('script');t=r.currentScript||my[my.length-1];
+f[a]=f[a]||function(){(f[a].q=f[a].q||[]).push(arguments)};if(my[0].src.indexOf(m+'/embed.js')<0){
+v=r.createElement('script');v.src=m+'/embed.js';v.async=true;my[0].parentNode.insertBefore(v,my[0]);
+}f[a](e,t,m);f['FrameMyTvObject']=a;})(window,document,'ftv','//framemytv.com/vendor',{type:'tab',storeId:707});
+                    </script>
+                </div>
         </div>
     </div>
 </script>

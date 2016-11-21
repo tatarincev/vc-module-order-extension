@@ -308,7 +308,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    }, 'mainDashboard');
 	    widgetService.registerWidget({
 	        controller: statisticsController,
-	        size: [6, 2],
+	        size: [3, 2],
 	        template: 'order-statistics-general.html'
 	    }, 'mainDashboard');
 

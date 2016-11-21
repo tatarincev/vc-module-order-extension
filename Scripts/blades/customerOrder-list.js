@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.customerOrderListController', ['$scope', '$localStorage', 'virtoCommerce.orderModule.order_res_customerOrders', 'platformWebApp.bladeUtils', 'platformWebApp.dialogService', 'platformWebApp.authService', 'uiGridConstants', 'platformWebApp.uiGridHelper', 'dateFilter', 'virtoCommerce.orderModule.knownOperations',
-function ($scope, $localStorage, customerOrders, bladeUtils, dialogService, authService, uiGridConstants, uiGridHelper, dateFilter, knownOperations) {
+.controller('virtoCommerce.orderModule.customerOrderListController', ['$scope', '$localStorage', 'virtoCommerce.orderModule.order_res_customerOrders', 'virtoCommerce.productConfigurationModule.productConfigurations', 'platformWebApp.bladeUtils', 'platformWebApp.dialogService', 'platformWebApp.authService', 'uiGridConstants', 'platformWebApp.uiGridHelper', 'dateFilter', 'virtoCommerce.orderModule.knownOperations',
+function ($scope, $localStorage, customerOrders, productConfigurations, bladeUtils, dialogService, authService, uiGridConstants, uiGridHelper, dateFilter, knownOperations) {
     var blade = $scope.blade;
     var bladeNavigationService = bladeUtils.bladeNavigationService;
     $scope.uiGridConstants = uiGridConstants;
@@ -61,6 +61,121 @@ function ($scope, $localStorage, customerOrders, bladeUtils, dialogService, auth
         dialogService.showConfirmationDialog(dialog);
     }
 
+    $scope.cloneList = function (list) {
+        var dialog = {
+            id: "confirmCloneItem",
+            title: "orders.dialogs.orders-clone.title",
+            message: "orders.dialogs.orders-clone.message",
+            callback: function (clone) {
+                if (clone) {
+                    closeChildrenBlades();
+
+                    var itemIds = _.pluck(list, 'id');
+                    for (i = 0; i < itemIds.length; i++) {
+                        customerOrders.get({ id: itemIds[i] }, function (order, headers) {
+                            var dateNow = new Date();
+
+                            order.id = null;
+                            order.childrenOperations = null;
+                            order.inPayments = null;
+                            order.shipments = null;
+                            order.invoices = null;
+                            order.number = null;
+                            order.createdDate = dateNow.toISOString();
+                            order.createdBy = 'admin';
+                            order.status = 'New';
+                            order.isApproved = 0;
+
+                            //copy product configuration request and reset id's to null
+                            angular.forEach(order.items, function (orderLineItem) {
+                                if (orderLineItem.productConfigurationRequestId != null) {
+                                    var criteria = {
+                                        productConfigurationRequestId: orderLineItem.productConfigurationRequestId,
+                                        isordered: true
+                                    };
+
+                                    productConfigurations.search(criteria, function (productConfigData) {
+                                        
+                                        var orderLineItemCPC = productConfigData.productConfigurationRequests[0];
+                                        orderLineItemCPC.id = null;
+                                        orderLineItemCPC.orderLineItemId = null;
+                                        orderLineItemCPC.productConfiguration.id = null;
+                                        angular.forEach(orderLineItemCPC.productConfiguration.lines, function (line) {
+                                            line.id = null;
+                                        })
+                                        orderLineItemCPC.createdDate = dateNow.toISOString();
+                                        orderLineItemCPC.modifiedDate = dateNow.toISOString();
+                                        orderLineItemCPC.createdBy = 'admin';
+
+
+                                        productConfigurations.save(orderLineItemCPC, function (orderLineItemCPCResult) {
+                                            orderLineItem.productConfiguration = orderLineItemCPCResult;
+                                        },
+                                        function (error) {
+                                            bladeNavigationService.setError('Error ' + error.status, blade);
+                                        });
+
+
+
+                                    },
+                                   function (error) {
+                                       bladeNavigationService.setError('Error ' + error.status, blade);
+                                   });
+                                }
+                                orderLineItem.id = null;
+                                orderLineItem.productConfigurationRequestId = null;
+                            });
+
+
+                            customerOrders.save(order, function (orderResult, headers) {
+
+                                var i = 0;
+                                angular.forEach(orderResult.items, function (orderLineItemResult) {
+                                    order.items[i].productConfiguration.orderLineItemId = orderLineItemResult.id;
+                                    i++;
+                                });
+
+                                blade.refresh();
+                            },
+                            function (error) {
+                                bladeNavigationService.setError('Error ' + error.status, blade);
+                            });
+
+
+                            //customerOrders.save(data, function (orderResult, headers) {
+
+                            //    var i = 0;
+                            //    angular.forEach(orderResult.items, function (orderLineItemResult) {
+                            //        data.items[i].productConfiguration.orderLineItemId = orderLineItemResult.id;
+                            //        i++;
+                            //    });
+
+                            //    blade.refresh();
+                            //},
+                            //function (error) {
+                            //    bladeNavigationService.setError('Error ' + error.status, blade);
+                            //});
+
+
+
+                        });
+                    }
+                    
+              }
+              
+
+                    //customerOrders.save({ ids: itemIds }, function (data, headers) {
+                    //    blade.refresh();
+                    //},
+                    //function (error) {
+                    //    bladeNavigationService.setError('Error ' + error.status, blade);
+                    //});
+            }
+        }
+        
+        dialogService.showConfirmationDialog(dialog);
+    }
+
     function closeChildrenBlades() {
         angular.forEach(blade.childrenBlades.slice(), function (child) {
             bladeNavigationService.closeBlade(child);
@@ -86,6 +201,16 @@ function ($scope, $localStorage, customerOrders, bladeUtils, dialogService, auth
                     return $scope.gridApi && _.any($scope.gridApi.selection.getSelectedRows());
                 },
                 permission: 'order:delete'
+            },
+            {
+                name: "platform.commands.clone", icon: 'fa fa-clone',
+                executeMethod: function () {
+                    $scope.cloneList($scope.gridApi.selection.getSelectedRows());
+                },
+                canExecuteMethod: function () {
+                    return $scope.gridApi && _.any($scope.gridApi.selection.getSelectedRows());
+                },
+                permission: 'order:create'
             }
     ];
 

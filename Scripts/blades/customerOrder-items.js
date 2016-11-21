@@ -3,6 +3,7 @@
     function ($scope, $sce, bladeNavigationService, dialogService, items, productConfigurations, prices) {
     var blade = $scope.blade;
     blade.updatePermission = 'order:update';
+    blade.hasUpdatePermission = $scope.$parent.blade.hasUpdatePermission();
 
     //pagination settings
     $scope.pageSettings = {};
@@ -11,6 +12,7 @@
     $scope.pageSettings.currentPage = 1;
     $scope.pageSettings.numPages = 5;
     $scope.pageSettings.itemsPerPageCount = 4;
+    
 
     $scope.toTrustedHTML = function (html) {
         return $sce.trustAsHtml(html);
@@ -19,11 +21,12 @@
     var selectedProducts = [];
 
     blade.refresh = function () {
+        blade.isLocked = blade.currentEntity.status == 'Completed' || blade.currentEntity.isCancelled || !blade.hasUpdatePermission;
         angular.forEach(blade.currentEntity.items, function (item) {
 
             if (item.productConfigurationRequestId != null) {
                 var criteria = {
-                    id: item.productConfigurationRequestId,
+                    productConfigurationRequestId: item.productConfigurationRequestId,
                     isordered: true
                 };
 
@@ -81,14 +84,26 @@
     };
 
     $scope.openItemDetail = function (item) {
-        var newBlade = {
-            id: "listItemDetail",
-            itemId: item.productId,
-            title: item.name,
-            controller: 'virtoCommerce.catalogModule.itemDetailController',
-            template: 'Modules/$(VirtoCommerce.Catalog)/Scripts/blades/item-detail.tpl.html'
-        };
-        bladeNavigationService.showBlade(newBlade, $scope.blade);
+        //TODO add if for product configurations
+
+        if (item.name == 'Custom Configuration') {
+            var newBlade = {
+                currentEntityId: item.productConfigurationRequestId,
+                controller: 'virtoCommerce.productConfigurationModule.productConfigurationDetailController',
+                template: 'Modules/$(VirtoCommerce.ProductConfiguration)/Scripts/blades/product-configuration-detail.tpl.html'
+            };
+            bladeNavigationService.showBlade(newBlade, $scope.blade);
+        }
+        else{
+            var newBlade = {
+                id: "listItemDetail",
+                itemId: item.productId,
+                title: item.name,
+                controller: 'virtoCommerce.catalogModule.itemDetailController',
+                template: 'Modules/$(VirtoCommerce.Catalog)/Scripts/blades/item-detail.tpl.html'
+            };
+            bladeNavigationService.showBlade(newBlade, $scope.blade);
+        }
     };
 
     function openAddEntityWizard() {
@@ -131,12 +146,26 @@
 
     blade.toolbarCommands = [
         {
-            name: "orders.commands.add-item", icon: 'fa fa-plus',
+            name: "orders.commands.add-catalog-item", icon: 'fa fa-plus',
             executeMethod: function () {
-                openAddEntityWizard();
+                if (!blade.isLocked) { 
+                    openAddEntityWizard();
+                }
             },
             canExecuteMethod: function () {
-                return blade.currentEntity.operationType === 'CustomerOrder';
+                return blade.currentEntity.operationType === 'CustomerOrder' && !blade.isLocked;
+            },
+            permission: blade.updatePermission
+        },
+        {
+            name: "orders.commands.add-product-configuration", icon: 'fa fa-plus',
+            executeMethod: function () {
+                if (!blade.isLocked) {
+                    openAddProductConfigurationWizard();
+                }
+            },
+            canExecuteMethod: function () {
+                return blade.currentEntity.operationType === 'CustomerOrder' && !blade.isLocked;
             },
             permission: blade.updatePermission
         },
@@ -166,4 +195,5 @@
     };
 
     blade.refresh();
+
 }]);

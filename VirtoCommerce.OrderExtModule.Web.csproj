@@ -234,7 +234,9 @@
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Localizations\" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610262104498_Initial.resx">
       <DependentUpon>201610262104498_Initial.cs</DependentUpon>
