@@ -117,12 +117,12 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="VirtoCommerce.Domain, Version=2.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\VirtoCommerce.Domain.2.17.0\lib\net451\VirtoCommerce.Domain.dll</HintPath>
+    <Reference Include="VirtoCommerce.Domain, Version=2.19.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\VirtoCommerce.Domain.2.19.1\lib\net451\VirtoCommerce.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.12.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\VirtoCommerce.OrderModule.Data.2.12.0\lib\net451\VirtoCommerce.OrderModule.Data.dll</HintPath>
+    <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.13.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\VirtoCommerce.OrderModule.Data.2.13.0\lib\net451\VirtoCommerce.OrderModule.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.Platform.Core, Version=2.12.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -141,7 +141,9 @@
   <ItemGroup>
     <Content Include="Content\css\orderExtModule.css" />
     <Content Include="Content\logo.png" />
-    <Content Include="module.manifest" />
+    <Content Include="module.manifest">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Scripts\blades\customerOrder-detail.js" />
     <Content Include="Scripts\blades\customerOrder-detail.tpl.html" />
     <Content Include="Scripts\blades\customerOrder-items.js" />
@@ -169,6 +171,7 @@
     <Content Include="Scripts\tree-template.html" />
     <Content Include="Scripts\customer-order-extension.js" />
     <Content Include="packages.config" />
+    <Content Include="Localizations\en.VirtoCommerce.Orders.json" />
     <None Include="Properties\PublishProfiles\prod.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -203,25 +206,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201610262104498_Initial.cs" />
-    <Compile Include="Migrations\201610262104498_Initial.Designer.cs">
-      <DependentUpon>201610262104498_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611130422125_productconfigurations.cs" />
-    <Compile Include="Migrations\201611130422125_productconfigurations.Designer.cs">
-      <DependentUpon>201611130422125_productconfigurations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611141919583_InvoiceEmployee.cs" />
-    <Compile Include="Migrations\201611141919583_InvoiceEmployee.Designer.cs">
-      <DependentUpon>201611141919583_InvoiceEmployee.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611141924359_InvoiceOrganization.cs" />
-    <Compile Include="Migrations\201611141924359_InvoiceOrganization.Designer.cs">
-      <DependentUpon>201611141924359_InvoiceOrganization.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611141948435_InvoiceDataAnnotations.cs" />
-    <Compile Include="Migrations\201611141948435_InvoiceDataAnnotations.Designer.cs">
-      <DependentUpon>201611141948435_InvoiceDataAnnotations.cs</DependentUpon>
+    <Compile Include="Migrations\201611230123055_Initial.cs" />
+    <Compile Include="Migrations\201611230123055_Initial.Designer.cs">
+      <DependentUpon>201611230123055_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CustomerOrderExtensionEntity.cs" />
@@ -235,23 +222,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Localizations\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610262104498_Initial.resx">
-      <DependentUpon>201610262104498_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611130422125_productconfigurations.resx">
-      <DependentUpon>201611130422125_productconfigurations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611141919583_InvoiceEmployee.resx">
-      <DependentUpon>201611141919583_InvoiceEmployee.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611141924359_InvoiceOrganization.resx">
-      <DependentUpon>201611141924359_InvoiceOrganization.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611141948435_InvoiceDataAnnotations.resx">
-      <DependentUpon>201611141948435_InvoiceDataAnnotations.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611230123055_Initial.resx">
+      <DependentUpon>201611230123055_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -286,8 +258,10 @@
     <Error Condition="!Exists('packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('packages\VirtoCommerce.Module.0.9.0\build\VirtoCommerce.Module.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\VirtoCommerce.Module.0.9.0\build\VirtoCommerce.Module.targets'))" />
+    <Error Condition="!Exists('..\..\..\packages\VirtoCommerce.Module.0.10.0\build\VirtoCommerce.Module.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\VirtoCommerce.Module.0.10.0\build\VirtoCommerce.Module.targets'))" />
   </Target>
   <Import Project="packages\VirtoCommerce.Module.0.9.0\build\VirtoCommerce.Module.targets" Condition="Exists('packages\VirtoCommerce.Module.0.9.0\build\VirtoCommerce.Module.targets')" />
+  <Import Project="..\..\..\packages\VirtoCommerce.Module.0.10.0\build\VirtoCommerce.Module.targets" Condition="Exists('..\..\..\packages\VirtoCommerce.Module.0.10.0\build\VirtoCommerce.Module.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

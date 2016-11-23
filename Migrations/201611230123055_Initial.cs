@@ -6,7 +6,7 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
     public partial class Initial : DbMigration
     {
         public override void Up()
-        {           
+        {
             CreateTable(
                 "dbo.CustomerOrderExtension",
                 c => new
@@ -22,27 +22,43 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        CustomerId = c.String(),
-                        CustomerName = c.String(),
+                        CustomerId = c.String(nullable: false, maxLength: 128),
+                        CustomerName = c.String(maxLength: 255),
+                        EmployeeId = c.String(maxLength: 128),
+                        EmployeeName = c.String(maxLength: 255),
+                        OrganizationId = c.String(maxLength: 128),
+                        OrganizationName = c.String(maxLength: 255),
                         CustomerOrderExtensionId = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.OrderOperation", t => t.Id)
                 .ForeignKey("dbo.CustomerOrderExtension", t => t.CustomerOrderExtensionId)
                 .Index(t => t.Id)
-                .Index(t => t.CustomerOrderExtensionId);            
+                .Index(t => t.CustomerOrderExtensionId);
+            
+            CreateTable(
+                "dbo.OrderLineItemExtension",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        ProductConfigurationRequestId = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.OrderLineItem", t => t.Id)
+                .Index(t => t.Id);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.OrderLineItemExtension", "Id", "dbo.OrderLineItem");
             DropForeignKey("dbo.OrderInvoice", "CustomerOrderExtensionId", "dbo.CustomerOrderExtension");
             DropForeignKey("dbo.OrderInvoice", "Id", "dbo.OrderOperation");
             DropForeignKey("dbo.CustomerOrderExtension", "Id", "dbo.CustomerOrder");
+            DropIndex("dbo.OrderLineItemExtension", new[] { "Id" });
             DropIndex("dbo.OrderInvoice", new[] { "CustomerOrderExtensionId" });
             DropIndex("dbo.OrderInvoice", new[] { "Id" });
             DropIndex("dbo.CustomerOrderExtension", new[] { "Id" });
-            DropTable("dbo.OrderInvoice");
-            DropTable("dbo.CustomerOrderExtension");
         }
     }
 }
