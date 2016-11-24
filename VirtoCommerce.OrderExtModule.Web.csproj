@@ -133,10 +133,6 @@
       <HintPath>packages\VirtoCommerce.Platform.Data.2.12.0\lib\net451\VirtoCommerce.Platform.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="VirtoCommerce.QuoteModule.Data, Version=2.11.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\VirtoCommerce.QuoteModule.Data.2.11.1\lib\net451\VirtoCommerce.QuoteModule.Data.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\orderExtModule.css" />
