@@ -36,7 +36,7 @@ namespace VirtoCommerce.OrderExtModule.Web.Model {
         public override void Patch(LineItemEntity target) {
             base.Patch(target);
 
-            var vendorExtensionEntity = target as OrderLineItemExtensionEntity;
+            var cartExtensionEntity = target as OrderLineItemExtensionEntity;
         }
     }
 }
