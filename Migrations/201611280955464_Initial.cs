@@ -6,7 +6,7 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
     public partial class Initial : DbMigration
     {
         public override void Up()
-        {            
+        {
             CreateTable(
                 "dbo.CustomerOrderExtension",
                 c => new
@@ -45,7 +45,8 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.OrderLineItem", t => t.Id)
-                .Index(t => t.Id);            
+                .Index(t => t.Id);
+            
         }
         
         public override void Down()
@@ -54,12 +55,10 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
             DropForeignKey("dbo.OrderInvoice", "CustomerOrderExtensionId", "dbo.CustomerOrderExtension");
             DropForeignKey("dbo.OrderInvoice", "Id", "dbo.OrderOperation");
             DropForeignKey("dbo.CustomerOrderExtension", "Id", "dbo.CustomerOrder");
-
             DropIndex("dbo.OrderLineItemExtension", new[] { "Id" });
             DropIndex("dbo.OrderInvoice", new[] { "CustomerOrderExtensionId" });
             DropIndex("dbo.OrderInvoice", new[] { "Id" });
             DropIndex("dbo.CustomerOrderExtension", new[] { "Id" });
-
             DropTable("dbo.OrderLineItemExtension");
             DropTable("dbo.OrderInvoice");
             DropTable("dbo.CustomerOrderExtension");

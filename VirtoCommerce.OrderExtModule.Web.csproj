@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VirtoCommerce.OrderExtModule.Web</RootNamespace>
     <AssemblyName>VirtoCommerce.OrderExtModule.Web</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -202,24 +202,24 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201611250513547_Initial.cs" />
-    <Compile Include="Migrations\201611250513547_Initial.Designer.cs">
-      <DependentUpon>201611250513547_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201611280955464_Initial.cs" />
+    <Compile Include="Migrations\201611280955464_Initial.Designer.cs">
+      <DependentUpon>201611280955464_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\CustomerOrderExtension.cs" />
     <Compile Include="Model\CustomerOrderExtensionEntity.cs" />
+    <Compile Include="Model\Invoice.cs" />
+    <Compile Include="Model\InvoiceEntity.cs" />
     <Compile Include="Model\OrderLineItemExtension.cs" />
     <Compile Include="Model\OrderLineItemExtensionEntity.cs" />
-    <Compile Include="Model\InvoiceEntity.cs" />
     <Compile Include="OrderExtensionRepository.cs" />
-    <Compile Include="Model\CustomerOrderExtension.cs" />
-    <Compile Include="Model\Invoice.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611250513547_Initial.resx">
-      <DependentUpon>201611250513547_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611280955464_Initial.resx">
+      <DependentUpon>201611280955464_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

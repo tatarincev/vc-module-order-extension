@@ -237,21 +237,46 @@
     }
 
 
-.vc-product-configuration .product-img {
-    height: 150px;
-    width: 370px;
-    display: table-cell;
-    vertical-align: middle;
+.vc-order .vc-product-configuration .product-img {
+    height: 100px;
+    width: 150px;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
 
-    .vc-product-configuration .product-img .image {
-        margin-left: -20%;
-        margin-right: -20%;
-        width: 140%;
+    .vc-order .vc-product-configuration .product-img .image {
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-align-self: auto;
+        -ms-flex-item-align: auto;
+        align-self: auto;
+        background-size: 190px;
+        background-position-y: -30px;
     }
 
-.vc-product-configuration .table-ico, .vc-product-configuration .product .table-ico {
-    font-size: 130px;
+.vc-order .vc-product-configuration .table-ico, .vc-order .product .table-ico {
+    font-size: 100px;
+    padding-left:10px;
 }
 
 .table .table-item:hover, .__items .list-item:hover, .__files .list-block:hover {

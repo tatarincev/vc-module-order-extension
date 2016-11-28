@@ -20,6 +20,10 @@ namespace VirtoCommerce.OrderExtModule.Web.Model {
             // supplier properties will be mapped in base method implementation by using value injection
             var retVal = base.ToModel(lineItem) as OrderLineItemExtension;
 
+            if (retVal != null) {
+                this.ProductConfigurationRequestId = retVal.ProductConfigurationRequestId;
+            }
+
             return retVal;
         }
 
