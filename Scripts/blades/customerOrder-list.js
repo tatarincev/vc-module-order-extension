@@ -12,7 +12,8 @@ function ($scope, $localStorage, customerOrders, productConfigurations, bladeUti
             keyword: filter.keyword,
             sort: uiGridHelper.getSortExpression($scope),
             skip: ($scope.pageSettings.currentPage - 1) * $scope.pageSettings.itemsPerPageCount,
-            take: $scope.pageSettings.itemsPerPageCount
+            take: $scope.pageSettings.itemsPerPageCount,
+            responseGroup: 'default'
         };
         if (filter.current) {
             angular.extend(criteria, filter.current);
@@ -98,7 +99,7 @@ function ($scope, $localStorage, customerOrders, productConfigurations, bladeUti
     }
 
     function cloneOrder(id) {
-        customerOrders.search({ id: id }, function (order, headers) {
+        customerOrders.get({ id: id }, function (order, headers) {
 
 
             var dateNow = new Date();
