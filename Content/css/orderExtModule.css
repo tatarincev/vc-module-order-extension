@@ -304,15 +304,26 @@
     width: 20%;
 }
 
-.order-items .product-img{
+.order-items .table-col {
+    position:relative;
+}
+
+.order-items .product-img {
+     height: inherit; 
+     line-height: inherit; 
+     text-align: inherit; 
+     width: inherit; 
+}
+
+.order-items .product-img .image{
     height: 60px;
     line-height: 40px;
     text-align: center;
     width: 60px;
     position: absolute;
-    /* top: -0px; */
-    margin-top: -25px;
-    margin-left: -20px;
+    top: 0;
+    margin-left: -15px;
+    margin-top: 7px;
 }
 
 .order-items.table-item.__selected .product-img .image {
