@@ -303,3 +303,22 @@
 .vc-product-configuration .price {
     width: 20%;
 }
+
+.order-items .product-img{
+    height: 60px;
+    line-height: 40px;
+    text-align: center;
+    width: 60px;
+    position: absolute;
+    /* top: -0px; */
+    margin-top: -25px;
+    margin-left: -20px;
+}
+
+.order-items.table-item.__selected .product-img .image {
+    background-color:transparent !important;
+}
+
+.order-items.table-item:hover .product-img .image {
+    background-color:transparent !important;
+}
