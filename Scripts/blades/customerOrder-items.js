@@ -161,7 +161,15 @@
             name: "orders.commands.add-product-configuration", icon: 'fa fa-plus',
             executeMethod: function () {
                 if (!blade.isLocked) {
-                    openAddProductConfigurationWizard();
+                    var dialog = {
+                        id: "confirmAddProductConfiguration",
+                        title: "orders.dialogs.orders-cpc.title",
+                        message: "orders.dialogs.orders-cpc.message",
+                        callback: function (cpc) {
+                            openAddProductConfigurationWizard();
+                        }
+                    }
+                    dialogService.showConfirmationDialog(dialog);
                 }
             },
             canExecuteMethod: function () {

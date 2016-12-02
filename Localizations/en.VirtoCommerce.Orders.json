@@ -214,6 +214,10 @@
         "placeholders": {
           "reason": "Please enter cancel reason here..."
         }
+      },
+      "orders-cpc": {
+        "title": "Add Product Configuration",
+        "message": "Coming Soon! This button will open the product configuration widget."
       }
     },
     "commands": {

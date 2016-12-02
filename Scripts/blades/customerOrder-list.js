@@ -131,70 +131,67 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
             orderCloned.isApproved = 0;
             angular.forEach(orderCloned.items, function (orderLineItem) {
                 orderLineItem.id = null;
+                orderLineItem.ProductConfigurationRequestId = orderLineItem.productConfigurationRequestId;
             });
 
             customerOrders.save(orderCloned, function (orderResult) {
                 //cloneProductConfigurations(orderResult);
 
-                customerOrders.search({ keyword: orderResult.number }, function (orderResult) {
 
-                    var dateNow = new Date();
+                angular.forEach(orderResult.items, function (orderLineItemResult, key) {
+                    //copy product configuration request and reset id's to null
+                    if (orderLineItemResult.productConfigurationRequestId != null) {
+                        var criteria = {
+                            productConfigurationRequestId: orderLineItemResult.productConfigurationRequestId,
+                            isordered: true
+                        };
 
-                    angular.forEach(orderResult.items, function (orderLineItemResult, key) {
-                        //copy product configuration request and reset id's to null
-                        if (orderLineItemResult.productConfigurationRequestId != null) {
-                            var criteria = {
-                                productConfigurationRequestId: orderLineItemResult.productConfigurationRequestId,
-                                isordered: true
-                            };
+                        productConfigurations.search(criteria, function (productConfigData) {
 
-                            productConfigurations.search(criteria, function (productConfigData) {
+                            var orderLineItemCPC = productConfigData.productConfigurationRequests[0];
+                            orderLineItemCPC.id = null;
+                            orderLineItemCPC.number = null;
+                            orderLineItemCPC.orderLineItemId = orderResult.items[key].id;
+                            orderLineItemCPC.productConfiguration.id = null;
+                            angular.forEach(orderLineItemCPC.productConfiguration.lineItems, function (line) {
+                                line.id = null;
+                            })
+                            orderLineItemCPC.createdDate = dateNow.toISOString();
+                            orderLineItemCPC.modifiedDate = dateNow.toISOString();
+                            orderLineItemCPC.createdBy = 'admin';
 
-                                var orderLineItemCPC = productConfigData.productConfigurationRequests[0];
-                                orderLineItemCPC.id = null;
-                                orderLineItemCPC.number = null;
-                                orderLineItemCPC.orderLineItemId = orderResult.items[key].id;
-                                orderLineItemCPC.productConfiguration.id = null;
-                                angular.forEach(orderLineItemCPC.productConfiguration.lineItems, function (line) {
-                                    line.id = null;
-                                })
-                                orderLineItemCPC.createdDate = dateNow.toISOString();
-                                orderLineItemCPC.modifiedDate = dateNow.toISOString();
-                                orderLineItemCPC.createdBy = 'admin';
+                            productConfigurations.save(orderLineItemCPC, function (orderLineItemCPCResult) {
+                                orderLineItemResult.productConfiguration = orderLineItemCPCResult;
+                                orderLineItemResult.productConfigurationRequestId = orderLineItemCPCResult.id;
 
-                                productConfigurations.save(orderLineItemCPC, function (orderLineItemCPCResult) {
-                                    orderLineItemResult.productConfiguration = orderLineItemCPCResult;
-                                    orderLineItemResult.productConfigurationRequestId = orderLineItemCPCResult.id;
+                                //angular.forEach($scope.clonedOrder.items, function (orderLineItemResult) {
+                                //    if (orderLineItemResult.productConfigurationRequestId != null) {
+                                //        orderLineItemResult.productConfiguration.orderLineItemId = orderLineItemResult.id;
 
-                                    //angular.forEach($scope.clonedOrder.items, function (orderLineItemResult) {
-                                    //    if (orderLineItemResult.productConfigurationRequestId != null) {
-                                    //        orderLineItemResult.productConfiguration.orderLineItemId = orderLineItemResult.id;
+                                //        //orderLineItemResult.productConfiguration.lineItems = null;
 
-                                    //        //orderLineItemResult.productConfiguration.lineItems = null;
-
-                                    //        //productConfigurations.update(orderLineItemResult.productConfiguration, function (updateResult) {
-                                    //        //    //orderLineItem.productConfiguration = orderLineItemCPCResult;
-                                    //        //},
-                                    //        //function (error) {
-                                    //        //    bladeNavigationService.setError('Error ' + error.status, blade);
-                                    //        //});
-                                    //    }
-                                    //});
-                                },
-                                function (error) {
-                                    bladeNavigationService.setError('Error ' + error.status, blade);
-                                });
-
-
-
+                                //        //productConfigurations.update(orderLineItemResult.productConfiguration, function (updateResult) {
+                                //        //    //orderLineItem.productConfiguration = orderLineItemCPCResult;
+                                //        //},
+                                //        //function (error) {
+                                //        //    bladeNavigationService.setError('Error ' + error.status, blade);
+                                //        //});
+                                //    }
+                                //});
                             },
                             function (error) {
                                 bladeNavigationService.setError('Error ' + error.status, blade);
                             });
-                        }
-                    });
 
+
+
+                        },
+                        function (error) {
+                            bladeNavigationService.setError('Error ' + error.status, blade);
+                        });
+                    }
                 });
+
 
                 blade.refresh();
             },
