@@ -131,7 +131,6 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
             orderCloned.isApproved = 0;
             angular.forEach(orderCloned.items, function (orderLineItem) {
                 orderLineItem.id = null;
-                orderLineItem.ProductConfigurationRequestId = orderLineItem.productConfigurationRequestId;
             });
 
             customerOrders.save(orderCloned, function (orderResult) {

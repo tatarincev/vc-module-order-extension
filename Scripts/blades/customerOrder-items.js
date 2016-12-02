@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.customerOrderItemsController', ['$scope', '$sce', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'virtoCommerce.catalogModule.items', 'virtoCommerce.productConfigurationModule.productConfigurations', 'virtoCommerce.pricingModule.prices',
-    function ($scope, $sce, bladeNavigationService, dialogService, items, productConfigurations, prices) {
+.controller('virtoCommerce.orderModule.customerOrderItemsController', ['$scope', '$sce', 'platformWebApp.bladeNavigationService', 'platformWebApp.dialogService', 'virtoCommerce.orderModule.dialogService', 'virtoCommerce.catalogModule.items', 'virtoCommerce.productConfigurationModule.productConfigurations', 'virtoCommerce.pricingModule.prices',
+    function ($scope, $sce, bladeNavigationService, dialogService, moduleDialogService, items, productConfigurations, prices) {
     var blade = $scope.blade;
     blade.updatePermission = 'order:update';
     blade.hasUpdatePermission = $scope.$parent.blade.hasUpdatePermission();
@@ -81,6 +81,15 @@
             template: '$(Platform)/Scripts/app/dynamicProperties/blades/propertyValue-list.tpl.html'
         };
         bladeNavigationService.showBlade(blade, $scope.blade);
+    };
+
+    $scope.openLineItemDetailModal = function (item) {
+        moduleDialogService.showLineItemDialog({
+            id: "ProductConfiguration",
+            title: "Product Configuration",
+            message: "Wider image display and basic details of that line item product configuration",
+            messageValues: { memberType: item },
+        });
     };
 
     $scope.openItemDetail = function (item) {

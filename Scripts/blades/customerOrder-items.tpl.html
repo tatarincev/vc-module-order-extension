@@ -40,7 +40,7 @@
                             <td class="table-col">
 
                                 <div ng-repeat="lineItem in data.productConfiguration.productConfiguration.lineItems">
-                                    <div class="product-img" ng-if="lineItem.preview.image">
+                                    <div ng-click="openLineItemDetailModal(lineItem)" class="product-img" ng-if="lineItem.preview.image">
                                         <div class="image" style="background-image: url({{lineItem.preview.image}})"></div>
                                     </div>
                                 </div>
