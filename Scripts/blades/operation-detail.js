@@ -185,9 +185,9 @@
             blade.toolbarCommands.splice(1, 1);
         }
 
-        blade.onClose = function (closeCallback) {
-            bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, $scope.saveChanges, closeCallback, "orders.dialogs.operation-save.title", "orders.dialogs.operation-save.message");
-        };
+        //blade.onClose = function (closeCallback) {
+        //    bladeNavigationService.showConfirmationIfNeeded(isDirty(), canSave(), blade, $scope.saveChanges, closeCallback, "orders.dialogs.operation-save.title", "orders.dialogs.operation-save.message");
+        //};
 
         $scope.cancelOperationResolution = function (resolution) {
             $modalInstance.close(resolution);

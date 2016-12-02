@@ -6,4 +6,12 @@
         $scope.openBlade = function () {
             $state.go('workspace.orderModule');
         };
+
+        $scope.openOrderWithStatus = function (status) {
+            $state.go('workspace.orderModule', { status: [status] });
+        }
+
+        $scope.openOrderWithId = function (id) {
+            $state.go('workspace.orderModule', { id: id });
+        }
     }]);

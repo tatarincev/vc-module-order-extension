@@ -1,19 +1,89 @@
 ﻿<script type="text/ng-template" id="order-statistics-general.html">
-    <div class="gridster-cnt" ng-click="openBlade()">
+    <div class="gridster-cnt">
         <div class="cnt-inner">
             <h3>Pending Items</h3>
-                <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersPendingApproval}} Order(s) Pending Approval</div>
-                <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersInProcess}} Order(s) In Process</div>
-                <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersReadyBilled}} Order(s) Ready to be Billed</div>
-                <div>{{$storage.ordersDashboardStatistics.PendingItems.CustomerServiceMessages}} Customer Service Message(s) Pending</div>
-                <div>
-                    <script>
-(function(f,r,a,m,e,my,t,v){my=r.getElementsByTagName('script');t=r.currentScript||my[my.length-1];
-f[a]=f[a]||function(){(f[a].q=f[a].q||[]).push(arguments)};if(my[0].src.indexOf(m+'/embed.js')<0){
-v=r.createElement('script');v.src=m+'/embed.js';v.async=true;my[0].parentNode.insertBefore(v,my[0]);
-}f[a](e,t,m);f['FrameMyTvObject']=a;})(window,document,'ftv','//framemytv.com/vendor',{type:'tab',storeId:707});
-                    </script>
-                </div>
+            <div><a href="javascript:" ng-click="openOrderWithStatus('New')">{{$storage.ordersDashboardStatistics.PendingItems.OrdersPendingApproval}} Order(s) Pending Approval</a></div>
+            <div><a href="javascript:" ng-click="openOrderWithStatus('Processing')">{{$storage.ordersDashboardStatistics.PendingItems.OrdersInProcess}} Order(s) In Process</a></div>
+            <div>{{$storage.ordersDashboardStatistics.PendingItems.OrdersReadyBilled}} Order(s) Ready to be Billed</div>
+            <div>{{$storage.ordersDashboardStatistics.PendingItems.CustomerServiceMessages}} Customer Service Message(s) Pending</div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="order-statistics-recent.html">
+    <div class="gridster-cnt recent-orders">
+        <div class="cnt-inner">
+            <h3>Recent Orders</h3>
+            <div class="list" ng-repeat="data in $storage.ordersDashboardStatistics.RecentOrders | limitTo:5">
+                <a href="javascript:" ng-click="openOrderWithId(data.id)">
+                    <div class="col-xs-3">{{data.number}}</div>
+                    <div class="col-xs-3">{{data.createdDate | date:'MM/dd/yyyy'}}</div>
+                    <div class="col-xs-3">${{data.total}}</div>
+                    <div class="col-xs-3">{{data.customerName}}</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="order-statistics-summary.html">
+    <div class="gridster-cnt">
+        <div class="cnt-inner">
+            <h3>Order Summary</h3>
+            <table class="order-summary-stats">
+                <tr>
+                    <td><strong>Today: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>Yesterday: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>This Week: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>Last Week: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>This Month: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>Last Month: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>Last 6 Month: </strong></td>
+                    <td>to do</td>
+                </tr>
+            </table>
+            <table class="order-summary-stats">
+                <tr>
+                    <td><strong>2016: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>Projected: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>2015: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>past 30 days: </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>past 3 Months (90 days): </strong></td>
+                    <td>to do</td>
+                </tr>
+                <tr>
+                    <td><strong>past 6 Months (182 days): </strong></td>
+                    <td>to do</td>
+                </tr>
+            </table>
         </div>
     </div>
 </script>

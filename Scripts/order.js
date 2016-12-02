@@ -27,7 +27,8 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
                       //it value included in bladeContainer as ng-class='moduleName'
                       $scope.moduleName = "vc-order";
                   }
-              ]
+              ],
+              params: { status: null, id: null }
           });
   }]
 )
@@ -266,50 +267,60 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 
 	    // register dashboard widgets
 	    var statisticsController = 'virtoCommerce.orderModule.dashboard.statisticsWidgetController';
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [2, 1],
-	        template: 'order-statistics-revenue.html'
-	    }, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [2, 1],
-	        template: 'order-statistics-customersCount.html'
-	    }, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [2, 1],
-	        template: 'order-statistics-revenuePerCustomer.html'
-	    }, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [2, 1],
-	        template: 'order-statistics-orderValue.html'
-	    }, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [2, 1],
-	        template: 'order-statistics-itemsPurchased.html'
-	    }, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [2, 1],
-	        template: 'order-statistics-lineitemsPerOrder.html'
-	    }, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [2, 1],
+	    //    template: 'order-statistics-revenue.html'
+	    //}, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [1, 1],
+	    //    template: 'order-statistics-customersCount.html'
+	    //}, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [1, 1],
+	    //    template: 'order-statistics-revenuePerCustomer.html'
+	    //}, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [1, 1],
+	    //    template: 'order-statistics-orderValue.html'
+	    //}, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [1, 1],
+	    //    template: 'order-statistics-itemsPurchased.html'
+	    //}, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [1, 1],
+	    //    template: 'order-statistics-lineitemsPerOrder.html'
+	    //}, 'mainDashboard');
 	    widgetService.registerWidget({
 	        controller: statisticsController,
 	        size: [3, 2],
 	        template: 'order-statistics-revenueByQuarter.html'
 	    }, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [3, 2],
-	        template: 'order-statistics-orderValueByQuarter.html'
-	    }, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [3, 2],
+	    //    template: 'order-statistics-orderValueByQuarter.html'
+	    //}, 'mainDashboard');
 	    widgetService.registerWidget({
 	        controller: statisticsController,
 	        size: [3, 2],
 	        template: 'order-statistics-general.html'
+	    }, 'mainDashboard');
+	    widgetService.registerWidget({
+	        controller: statisticsController,
+	        size: [3, 2],
+	        template: 'order-statistics-recent.html'
+	    }, 'mainDashboard');
+	    widgetService.registerWidget({
+	        controller: statisticsController,
+	        size: [3, 4],
+	        template: 'order-statistics-summary.html'
 	    }, 'mainDashboard');
 
 	    $http.get('Modules/$(VirtoCommerce.OrderExtension)/Scripts/widgets/dashboard/statistics-templates.html').then(function (response) {
@@ -453,11 +464,13 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 
 	                var criteria = {
 	                    statuses: ['New'],
-	                    take: 5000
+	                    take: 5000,
+                        responseGroup: 'default'
 	                };
 
 	                customerOrders.search(criteria, function (apiData) {
 	                    data.PendingItems.OrdersPendingApproval = apiData.totalCount;
+	                    data.RecentOrders = apiData.customerOrders;
 	                },
                     function (error) {
                        bladeNavigationService.setError('Error ' + error.status, blade);
@@ -465,7 +478,8 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 
 	                var criteria = {
 	                    statuses: ['Processing'],
-	                    take: 5000
+	                    take: 5000,
+	                    responseGroup: 'default'
 	                };
 
 	                customerOrders.search(criteria, function (apiData) {
@@ -474,7 +488,6 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
                     function (error) {
                        bladeNavigationService.setError('Error ' + error.status, blade);
                     });
-
 
 	                $localStorage.ordersDashboardStatistics = data;
 	            },
