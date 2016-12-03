@@ -134,8 +134,6 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
             });
 
             customerOrders.save(orderCloned, function (orderResult) {
-                //cloneProductConfigurations(orderResult);
-
 
                 angular.forEach(orderResult.items, function (orderLineItemResult, key) {
                     //copy product configuration request and reset id's to null
@@ -159,24 +157,16 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
                             orderLineItemCPC.modifiedDate = dateNow.toISOString();
                             orderLineItemCPC.createdBy = 'admin';
 
-                            productConfigurations.save(orderLineItemCPC, function (orderLineItemCPCResult) {
-                                orderLineItemResult.productConfiguration = orderLineItemCPCResult;
-                                orderLineItemResult.productConfigurationRequestId = orderLineItemCPCResult.id;
+                            productConfigurations.save(orderLineItemCPC, function (productConfigurationRequestResult) {
+                                orderLineItemResult.productConfigurationRequestId = productConfigurationRequestResult.id;
 
-                                //angular.forEach($scope.clonedOrder.items, function (orderLineItemResult) {
-                                //    if (orderLineItemResult.productConfigurationRequestId != null) {
-                                //        orderLineItemResult.productConfiguration.orderLineItemId = orderLineItemResult.id;
-
-                                //        //orderLineItemResult.productConfiguration.lineItems = null;
-
-                                //        //productConfigurations.update(orderLineItemResult.productConfiguration, function (updateResult) {
-                                //        //    //orderLineItem.productConfiguration = orderLineItemCPCResult;
-                                //        //},
-                                //        //function (error) {
-                                //        //    bladeNavigationService.setError('Error ' + error.status, blade);
-                                //        //});
-                                //    }
-                                //});
+                                customerOrders.update(orderResult, function (orderUpdateResult) {
+                                    var test = orderUpdateResult;
+                                },
+                                function (error) {
+                                    bladeNavigationService.setError('Error ' + error.status, blade);
+                                });
+                                
                             },
                             function (error) {
                                 bladeNavigationService.setError('Error ' + error.status, blade);
