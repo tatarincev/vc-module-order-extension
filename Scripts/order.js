@@ -471,6 +471,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                customerOrders.search(criteria, function (apiData) {
 	                    data.PendingItems.OrdersPendingApproval = apiData.totalCount;
 	                    data.RecentOrders = apiData.customerOrders;
+	                    menuItem.newCount = data.RecentOrders.length;
 	                },
                     function (error) {
                        bladeNavigationService.setError('Error ' + error.status, blade);

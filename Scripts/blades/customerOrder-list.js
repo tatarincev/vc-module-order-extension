@@ -1,9 +1,10 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.customerOrderListController', ['$scope', '$stateParams', '$localStorage', 'virtoCommerce.orderModule.order_res_customerOrders', 'virtoCommerce.productConfigurationModule.productConfigurations', 'platformWebApp.bladeUtils', 'platformWebApp.dialogService', 'platformWebApp.authService', 'uiGridConstants', 'platformWebApp.uiGridHelper', 'dateFilter', 'virtoCommerce.orderModule.knownOperations', '$q',
-function ($scope, $stateParams, $localStorage, customerOrders, productConfigurations, bladeUtils, dialogService, authService, uiGridConstants, uiGridHelper, dateFilter, knownOperations, $q) {
+.controller('virtoCommerce.orderModule.customerOrderListController', ['$scope', '$filter', '$stateParams', '$localStorage', 'virtoCommerce.orderModule.order_res_customerOrders', 'virtoCommerce.productConfigurationModule.productConfigurations', 'platformWebApp.bladeUtils', 'platformWebApp.dialogService', 'platformWebApp.authService', 'uiGridConstants', 'platformWebApp.uiGridHelper', 'dateFilter', 'virtoCommerce.orderModule.knownOperations', '$q', 'platformWebApp.mainMenuService',
+function ($scope, $filter, $stateParams, $localStorage, customerOrders, productConfigurations, bladeUtils, dialogService, authService, uiGridConstants, uiGridHelper, dateFilter, knownOperations, $q, mainMenuService) {
     var blade = $scope.blade;
     var bladeNavigationService = bladeUtils.bladeNavigationService;
     var ctrl = this;
+    var orderMenu = mainMenuService.findByPath('orders');
     $scope.uiGridConstants = uiGridConstants;
 
     blade.refresh = function () {
@@ -22,15 +23,28 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
         }
 
         customerOrders.search(criteria, function (data) {
-            blade.isLoading = false;
 
             $scope.pageSettings.totalItems = data.totalCount;
             $scope.objects = data.customerOrders;
             $stateParams.status = null;
         },
-       function (error) {
-           bladeNavigationService.setError('Error ' + error.status, blade);
-       });
+        function (error) {
+            bladeNavigationService.setError('Error ' + error.status, blade);
+        });
+
+        var criteria = {
+            statuses: ['New'],
+            responseGroup: 'default'
+        };
+
+        customerOrders.search(criteria, function (data) {
+            blade.isLoading = false;
+
+            orderMenu.newCount = data.customerOrders.length;
+        },
+        function (error) {
+            bladeNavigationService.setError('Error ' + error.status, blade);
+        });
 
         if ($stateParams.id != null) {
             customerOrders.get({ id: $stateParams.id }, function (data) {
@@ -70,6 +84,7 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
 
 
                     customerOrders.remove({ ids: itemIds }, function (data, headers) {
+                        orderMenu.newCount--;
                         blade.refresh();
                     },
                     function (error) {
@@ -135,6 +150,8 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
 
             customerOrders.save(orderCloned, function (orderResult) {
 
+                orderMenu.newCount++;
+
                 angular.forEach(orderResult.items, function (orderLineItemResult, key) {
                     //copy product configuration request and reset id's to null
                     if (orderLineItemResult.productConfigurationRequestId != null) {
@@ -166,7 +183,7 @@ function ($scope, $stateParams, $localStorage, customerOrders, productConfigurat
                                 function (error) {
                                     bladeNavigationService.setError('Error ' + error.status, blade);
                                 });
-                                
+
                             },
                             function (error) {
                                 bladeNavigationService.setError('Error ' + error.status, blade);
