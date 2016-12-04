@@ -31,57 +31,57 @@
             <table class="order-summary-stats">
                 <tr>
                     <td><strong>Today: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.Today.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.Today.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.Today.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>Yesterday: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.Yesterday.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.Yesterday.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.Yesterday.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>This Week: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.CurrentWeek.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.CurrentWeek.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.CurrentWeek.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>Last Week: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastWeek.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastWeek.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastWeek.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>This Month: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.CurrentMonth.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.CurrentMonth.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.CurrentMonth.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>Last Month: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastMonth.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastMonth.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastMonth.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>Last 6 Month: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastSixMonth.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastSixMonth.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastSixMonth.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
             </table>
             <table class="order-summary-stats">
                 <tr>
                     <td><strong>2016: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.CurrentYear.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.CurrentYear.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.CurrentYear.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>Projected: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.CurrentYear.Projected}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.CurrentYear.Projected.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.CurrentYear.Projected.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>2015: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastYear.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastYear.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastYear.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>past 30 days: </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastThirtyDays.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastThirtyDays.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastThirtyDays.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>past 3 Months (90 days): </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastNinyDays.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastNinyDays.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastNinyDays.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
                     <td><strong>past 6 Months (182 days): </strong></td>
-                    <td>{{$storage.ordersDashboardStatistics.LastOneHundreEightyTwoDays.TotalSales}}</td>
+                    <td>{{$storage.ordersDashboardStatistics.LastOneHundreEightyTwoDays.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastOneHundreEightyTwoDays.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
             </table>
         </div>

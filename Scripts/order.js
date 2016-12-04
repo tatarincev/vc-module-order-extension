@@ -516,13 +516,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            var end = moment().endOf('day'); // set to 23:59 pm today
                 //statistics for today
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.Today = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.Today.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.Today.TotalSales = '0 Order'
+	                    $localStorage.ordersDashboardStatistics.Today.TotalSales = data;
 	                }
 
 	            },
@@ -534,13 +532,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            start = moment().startOf('day').subtract(1, 'day'); // set to 12:00 am today
 	            end = moment().endOf('day').subtract(1, 'day'); // set to 23:59 pm today
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.Yesterday = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = '0 Order';
+	                    $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = data;
 	                }
 
 	            },
@@ -553,13 +549,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            start = moment().startOf('isoweek');
 	            end = moment().endOf('isoweek');
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.CurrentWeek = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = '0 Order';
+	                    $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = data;
 	                }
 
 	            },
@@ -572,13 +566,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            start = moment().subtract(1, 'weeks').startOf('isoWeek')
 	            end = moment().subtract(1, 'weeks').endOf('isoWeek')
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.LastWeek = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = '0 Order';
+	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = data;
 	                }
 
 	            },
@@ -589,13 +581,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            //statistics for this month          
 	            var dates = getMonthDateRange(moment().year(), moment().month())
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.CurrentMonth = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = '0 Order';
+	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = data;
 	                }
 
 	            },
@@ -607,13 +597,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            //statistics for last month          
 	            var dates = getMonthDateRange(moment().year(), moment().subtract(1, 'month').month())
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.LastMonth = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = '0 Order';
+	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = data;
 	                }
 
 	            },
@@ -625,13 +613,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            var dateStart = moment().subtract(5, 'month').startOf('month')
 	            var dateEnd = moment().startOf('month')
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                data.amount = data.revenue[0].amount;
 
 	                $localStorage.ordersDashboardStatistics.LastSixMonth = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
-	                }
-	                else {
-	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = '0 Order';
+	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = data;
 	                }
 
 	            },
