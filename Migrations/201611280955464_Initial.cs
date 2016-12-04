@@ -46,7 +46,11 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.OrderLineItem", t => t.Id)
                 .Index(t => t.Id);
-            
+
+            //Convert  all exist CustomerOrder records to CustomerOrder2
+            Sql("INSERT INTO dbo.CustomerOrderExtension (Id) SELECT Id FROM dbo.CustomerOrder");
+            //Convert  all exist LineItem records to lineItem2
+            Sql("INSERT INTO dbo.OrderLineItemExtension (Id) SELECT Id FROM dbo.OrderLineItem");
         }
         
         public override void Down()

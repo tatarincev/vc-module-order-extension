@@ -5,7 +5,7 @@ if (AppDependencies != undefined) {
     AppDependencies.push(moduleName);
 }
 
-angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricingModule'])
+angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricingModule', 'angularMoment'])
 .config(
   ['$stateProvider', function ($stateProvider) {
       $stateProvider
@@ -58,8 +58,8 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
     };
 }])
 .run(
-  ['$rootScope', '$http', '$compile', 'platformWebApp.mainMenuService', 'platformWebApp.widgetService', 'platformWebApp.bladeNavigationService', '$state', '$localStorage', 'virtoCommerce.orderModule.order_res_customerOrders', 'platformWebApp.permissionScopeResolver', 'virtoCommerce.storeModule.stores', 'virtoCommerce.orderModule.knownOperations',
-	function ($rootScope, $http, $compile, mainMenuService, widgetService, bladeNavigationService, $state, $localStorage, customerOrders, scopeResolver, stores, knownOperations) {
+  ['$rootScope', '$http', '$compile', 'platformWebApp.mainMenuService', 'platformWebApp.widgetService', 'platformWebApp.bladeNavigationService', '$state', '$localStorage', 'virtoCommerce.orderModule.order_res_customerOrders', 'platformWebApp.permissionScopeResolver', 'virtoCommerce.storeModule.stores', 'virtoCommerce.orderModule.knownOperations', 'moment',
+	function ($rootScope, $http, $compile, mainMenuService, widgetService, bladeNavigationService, $state, $localStorage, customerOrders, scopeResolver, stores, knownOperations, moment) {
 	    //Register module in main menu
 	    var menuItem = {
 	        path: 'orders',
@@ -354,6 +354,22 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    };
 	    scopeResolver.register(responsibleOrderScope);
 
+	    function getMonthDateRange(year, month) {
+	        // month in moment is 0 based, so 9 is actually october, subtract 1 to compensate
+	        // array is 'year', 'month', 'day', etc
+	        var startDate = moment([year, month]);
+
+	        // Clone the value before .endOf()
+	        var endDate = moment(startDate).endOf('month');
+
+	        // just for demonstration:
+	        console.log(startDate.toDate());
+	        console.log(endDate.toDate());
+
+	        // make sure to call toDate() for plain JavaScript date type
+	        return { start: startDate, end: endDate };
+	    }
+
 	    $rootScope.$on('loginStatusChanged', function (event, authContext) {
 	        if (authContext.isAuthenticated) {
 	            var now = new Date();
@@ -495,6 +511,134 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
                 function (error) {
                     console.log(error);
                 });
+
+	            var start = moment().startOf('day'); // set to 12:00 am today
+	            var end = moment().endOf('day'); // set to 23:59 pm today
+                //statistics for today
+	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.Today = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.Today.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.Today.TotalSales = '0 Order'
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for yesterday
+	            start = moment().startOf('day').subtract(1, 'day'); // set to 12:00 am today
+	            end = moment().endOf('day').subtract(1, 'day'); // set to 23:59 pm today
+	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.Yesterday = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = '0 Order';
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+
+	            //statistics for Current Week            
+	            start = moment().startOf('isoweek');
+	            end = moment().endOf('isoweek');
+	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.CurrentWeek = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = '0 Order';
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+
+	            //statistics for last Week            
+	            start = moment().subtract(1, 'weeks').startOf('isoWeek')
+	            end = moment().subtract(1, 'weeks').endOf('isoWeek')
+	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.LastWeek = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = '0 Order';
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for this month          
+	            var dates = getMonthDateRange(moment().year(), moment().month())
+	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.CurrentMonth = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = '0 Order';
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+
+	            //statistics for last month          
+	            var dates = getMonthDateRange(moment().year(), moment().subtract(1, 'month').month())
+	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.LastMonth = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = '0 Order';
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for last 6 month
+	            var dateStart = moment().subtract(5, 'month').startOf('month')
+	            var dateEnd = moment().startOf('month')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+
+	                $localStorage.ordersDashboardStatistics.LastSixMonth = {};
+	                if (data.revenue.length > 0) {
+	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = data.orderCount + ' Orders, $' + data.revenue[0].amount;
+	                }
+	                else {
+	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = '0 Order';
+	                }
+
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
 	        }
 	    });
 	}]);
