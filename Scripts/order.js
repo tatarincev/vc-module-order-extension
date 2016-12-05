@@ -363,8 +363,8 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	        var endDate = moment(startDate).endOf('month');
 
 	        // just for demonstration:
-	        console.log(startDate.toDate());
-	        console.log(endDate.toDate());
+	        //console.log(startDate.toDate());
+	        //console.log(endDate.toDate());
 
 	        // make sure to call toDate() for plain JavaScript date type
 	        return { start: startDate, end: endDate };
@@ -481,7 +481,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                var criteria = {
 	                    statuses: ['New'],
 	                    take: 5000,
-                        responseGroup: 'default'
+	                    responseGroup: 'default'
 	                };
 
 	                customerOrders.search(criteria, function (apiData) {
@@ -490,7 +490,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                    menuItem.newCount = data.RecentOrders.length;
 	                },
                     function (error) {
-                       bladeNavigationService.setError('Error ' + error.status, blade);
+                        bladeNavigationService.setError('Error ' + error.status, blade);
                     });
 
 	                var criteria = {
@@ -503,7 +503,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                    data.PendingItems.OrdersInProcess = apiData.totalCount;
 	                },
                     function (error) {
-                       bladeNavigationService.setError('Error ' + error.status, blade);
+                        bladeNavigationService.setError('Error ' + error.status, blade);
                     });
 
 	                $localStorage.ordersDashboardStatistics = data;
@@ -514,15 +514,16 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 
 	            var start = moment().startOf('day'); // set to 12:00 am today
 	            var end = moment().endOf('day'); // set to 23:59 pm today
-                //statistics for today
+	            //statistics for today
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.Today = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.Today.TotalSales = data;
+	                    data.amount = data.revenue[0].amount;
 	                }
-
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.Today = {};
+	                $localStorage.ordersDashboardStatistics.Today.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -532,13 +533,14 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            start = moment().startOf('day').subtract(1, 'day'); // set to 12:00 am today
 	            end = moment().endOf('day').subtract(1, 'day'); // set to 23:59 pm today
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.Yesterday = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = data;
+	                    data.amount = data.revenue[0].amount;
 	                }
-
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.Yesterday = {};
+	                $localStorage.ordersDashboardStatistics.Yesterday.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -549,13 +551,14 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            start = moment().startOf('isoweek');
 	            end = moment().endOf('isoweek');
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.CurrentWeek = {};
 	                if (data.revenue.length > 0) {
-	                    $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = data;
+	                    data.amount = data.revenue[0].amount;
 	                }
-
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.CurrentWeek = {};
+	                $localStorage.ordersDashboardStatistics.CurrentWeek.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -566,13 +569,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            start = moment().subtract(1, 'weeks').startOf('isoWeek')
 	            end = moment().subtract(1, 'weeks').endOf('isoWeek')
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.LastWeek = {};
 	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastWeek = {};
 	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = data;
 	                }
-
 	            },
                 function (error) {
                     console.log(error);
@@ -581,13 +582,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            //statistics for this month          
 	            var dates = getMonthDateRange(moment().year(), moment().month())
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.CurrentMonth = {};
 	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.CurrentMonth = {};
 	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = data;
 	                }
-
 	            },
                 function (error) {
                     console.log(error);
@@ -597,13 +596,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            //statistics for last month          
 	            var dates = getMonthDateRange(moment().year(), moment().subtract(1, 'month').month())
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.LastMonth = {};
 	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastMonth = {};
 	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = data;
 	                }
-
 	            },
                 function (error) {
                     console.log(error);
@@ -613,13 +610,98 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            var dateStart = moment().subtract(5, 'month').startOf('month')
 	            var dateEnd = moment().startOf('month')
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
-	                data.amount = data.revenue[0].amount;
-
-	                $localStorage.ordersDashboardStatistics.LastSixMonth = {};
 	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastSixMonth = {};
 	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = data;
 	                }
+	            },
+                function (error) {
+                    console.log(error);
+                });
 
+	            //statistics for current year
+	            var dateStart = moment().startOf('year')
+	            var dateEnd = moment().endOf('year')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.CurrentYear = {};
+	                    $localStorage.ordersDashboardStatistics.CurrentYear.TotalSales = data;
+	                }
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics projected for current year
+	            var dateStart = moment().startOf('year')
+	            var dateEnd = moment().endOf('year')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    data.amount = Math.floor(data.amount + (data.amount * 2 / 100));
+	                    data.orderCount = Math.floor(data.orderCount + (data.orderCount * 2 / 100));
+
+	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = {};
+	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = data;
+	                }
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for last year
+	            var dateStart = moment().subtract(1, 'year').startOf('year')
+	            var dateEnd = moment().subtract(1, 'year').endOf('year')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastYear = {};
+	                    $localStorage.ordersDashboardStatistics.LastYear.TotalSales = data;
+	                }
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for last 30 days
+	            var dateStart = moment().subtract(30, 'day').startOf('day')
+	            var dateEnd = moment().endOf('day')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastThirtyDays = {};
+	                    $localStorage.ordersDashboardStatistics.LastThirtyDays.TotalSales = data;
+	                }
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for last 90 days
+	            var dateStart = moment().subtract(90, 'day').startOf('day')
+	            var dateEnd = moment().endOf('day')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastNinyDays = {};
+	                    $localStorage.ordersDashboardStatistics.LastNinyDays.TotalSales = data;
+	                }
+	            },
+                function (error) {
+                    console.log(error);
+                });
+
+	            //statistics for last 182 days
+	            var dateStart = moment().subtract(182, 'day').startOf('day')
+	            var dateEnd = moment().endOf('day')
+	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
+	                if (data.revenue.length > 0) {
+	                    data.amount = data.revenue[0].amount;
+	                    $localStorage.ordersDashboardStatistics.LastOneHundreEightyTwoDays = {};
+	                    $localStorage.ordersDashboardStatistics.LastOneHundreEightyTwoDays.TotalSales = data;
+	                }
 	            },
                 function (error) {
                     console.log(error);
