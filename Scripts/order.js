@@ -635,13 +635,13 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
                 });
 
 	            //statistics projected for current year
-	            var dateStart = moment().startOf('year')
-	            var dateEnd = moment().endOf('year')
+	            var dateStart = moment().subtract(1, 'year').startOf('year')
+	            var dateEnd = moment().subtract(1, 'year').endOf('year')
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    data.amount = Math.floor(data.amount + (data.amount * 2 / 100));
-	                    data.orderCount = Math.floor(data.orderCount + (data.orderCount * 2 / 100));
+	                    data.amount = Math.floor(data.amount + (data.amount * 31 / 100));
+	                    data.orderCount = Math.floor(data.orderCount + (data.orderCount * 31 / 100));
 
 	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = {};
 	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = data;
