@@ -164,7 +164,7 @@
     <Content Include="Scripts\resources\lineItemDialog.js" />
     <Content Include="Scripts\resources\customerOrders.js" />
     <Content Include="Scripts\resources\fulfillmentCenters.js" />
-    <Content Include="Scripts\resources\lineItemDialog.tpl.html" />
+    <Content Include="Scripts\dialogs\lineItemDialog.tpl.html" />
     <Content Include="Scripts\resources\stores.js" />
     <Content Include="Scripts\tree-template.html" />
     <Content Include="Scripts\customer-order-extension.js" />
