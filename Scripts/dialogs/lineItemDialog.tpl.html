@@ -5,7 +5,7 @@
     <div class="col-xs-6">
         <div class="item" ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems">
             <div class="product-img" ng-if="lineItem.preview.image">
-                <div class="image" style="background-image: url({{lineItem.preview.image}})"></div>
+                <div class="image" style="background-image: url({{lineItem.preview.image}}); z-index: {{lineItem.preview.index}};"></div>
             </div>
         </div>
     </div>
