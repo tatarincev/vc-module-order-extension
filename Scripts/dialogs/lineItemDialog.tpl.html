@@ -1,0 +1,35 @@
+﻿<div class="modal-header">
+    <h3 class="modal-title">{{title | translate: titleValues}}</h3>
+</div>
+<div class="modal-body cpc-detail">
+    <div class="col-xs-6">
+        <div class="item" ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems">
+            <div class="product-img" ng-if="lineItem.preview.image">
+                <div class="image" style="background-image: url({{lineItem.preview.image}})"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="col-xs-6">
+            <h3>Design</h3>
+            <div ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems | orderBy:'category'">
+                <div class="item-row" ng-if="lineItem.category != 'Options'">
+                    <div class="title"><strong>{{lineItem.name}}</strong></div>
+                    <div class="desc" ng-bind-html="toTrustedHTML(lineItem.description)"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <h3>Options</h3>
+            <div ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems | orderBy:'category'">
+                <div class="item-row" ng-if="lineItem.category == 'Options'">
+                    <div class="title"><strong>{{lineItem.name}}</strong></div>
+                    <div class="desc" ng-bind-html="toTrustedHTML(lineItem.description)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="yes()">{{ 'platform.commands.ok' | translate }}</button>
+</div>

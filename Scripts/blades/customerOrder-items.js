@@ -87,7 +87,7 @@
         moduleDialogService.showLineItemDialog({
             id: "ProductConfiguration",
             title: "Product Configuration",
-            message: "Wider image display and basic details of that line item product configuration",
+            productConfigurationRequest: item,
             messageValues: { memberType: item },
         });
     };

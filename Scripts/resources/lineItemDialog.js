@@ -1,5 +1,5 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.confirmDialogController', ['$scope', '$modalInstance', 'dialog', function ($scope, $modalInstance, dialog) {
+.controller('virtoCommerce.orderModule.confirmDialogController', ['$scope', '$modalInstance', 'dialog', '$sce', function ($scope, $modalInstance, dialog, $sce) {
     angular.extend($scope, dialog);
 
     $scope.yes = function () {
@@ -13,8 +13,14 @@
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+
+    $scope.toTrustedHTML = function (html) {
+        return $sce.trustAsHtml(html);
+    }
+
 }])
 .factory('virtoCommerce.orderModule.dialogService', ['$rootScope', '$modal', function ($rootScope, $modal) {
+
     var dialogService = {
         dialogs: [],
         currentDialog: undefined
@@ -65,7 +71,7 @@
     };
 
     dialogService.showLineItemDialog = function (dialog) {
-        dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/resources/lineItemDialog.tpl.html', 'virtoCommerce.orderModule.confirmDialogController');
+        dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/lineItemDialog.tpl.html', 'virtoCommerce.orderModule.confirmDialogController', 'cpc-modal-window');
     };
 
     return dialogService;
