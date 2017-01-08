@@ -204,7 +204,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonConverters\PolymorphicOperationJsonConverterExt.cs" />
     <Compile Include="Migrations\201611280955464_Initial.cs" />
     <Compile Include="Migrations\201611280955464_Initial.Designer.cs">
       <DependentUpon>201611280955464_Initial.cs</DependentUpon>
