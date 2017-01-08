@@ -237,12 +237,6 @@
   <ItemGroup>
     <Folder Include="Scripts\libraries\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VirtoCommerce.CartExtension\VirtoCommerce.CartExtModule.Web.csproj">
-      <Project>{41df0a67-bf05-4df3-bf5d-fc4e4936454e}</Project>
-      <Name>VirtoCommerce.CartExtModule.Web</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

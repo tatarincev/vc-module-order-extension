@@ -10,7 +10,6 @@ using orderModel = VirtoCommerce.Domain.Order.Model;
 using cartModel = VirtoCommerce.Domain.Cart.Model;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Domain.Commerce.Model;
-using VirtoCommerce.CartExtModule.Web.Model;
 
 namespace VirtoCommerce.OrderExtModule.Web.Services {
 
