@@ -10,6 +10,8 @@ using VirtoCommerce.Platform.Core.Modularity;
 using VirtoCommerce.Platform.Data.Infrastructure;
 using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
 using VirtoCommerce.OrderExtModule.Web.Migrations;
+using VirtoCommerce.OrderModule.Data.Services;
+using VirtoCommerce.OrderExtModule.Web.Services;
 
 namespace VirtoCommerce.OrderExtModule.Web
 {
@@ -40,8 +42,9 @@ namespace VirtoCommerce.OrderExtModule.Web
             base.Initialize();
 
             _container.RegisterType<IOrderRepository>(new InjectionFactory(c => new OrderExtensionRepository(_connectionStringName, _container.Resolve<AuditableInterceptor>(), new EntityPrimaryKeyGeneratorInterceptor())));
+            //Override ICustomerOrderBuilder default implementation
+            _container.RegisterType<ICustomerOrderBuilder, CustomerOrderBuilderExtImpl>();
 
-         
         }
 
         public override void PostInitialize()
@@ -55,8 +58,12 @@ namespace VirtoCommerce.OrderExtModule.Web
             AbstractTypeFactory<LineItem>.OverrideType<LineItem, OrderLineItemExtension>();
             AbstractTypeFactory<LineItemEntity>.OverrideType<LineItemEntity, OrderLineItemExtensionEntity>();
 
+            AbstractTypeFactory<Shipment>.OverrideType<Shipment, ShipmentExtension>();
+            AbstractTypeFactory<ShipmentEntity>.OverrideType<ShipmentEntity, ShipmentExtensionEntity>();
+
             //Thats need for PolymorphicOperationJsonConverter for API deserialization
             AbstractTypeFactory<IOperation>.RegisterType<Invoice>();
+            AbstractTypeFactory<IOperation>.RegisterType<ShipmentExtension>();
         }
      
         #endregion

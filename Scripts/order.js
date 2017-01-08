@@ -153,7 +153,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    knownOperations.registerOperation(paymentInOperation);
 
 	    var shipmentOperation = {
-	        type: 'Shipment',
+	        type: 'ShipmentExtension',
 	        description: 'orders.blades.newOperation-wizard.menu.shipment-operation.description',
 	        detailBlade: {
 	            template: 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/blades/shipment-detail.tpl.html',

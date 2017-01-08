@@ -47,6 +47,12 @@ namespace VirtoCommerce.OrderExtModule.Web
             modelBuilder.Entity<OrderLineItemExtensionEntity>().ToTable("OrderLineItemExtension");
             #endregion
 
+            #region ShipmentExtension
+            modelBuilder.Entity<ShipmentExtensionEntity>().HasKey(x => x.Id)
+                .Property(x => x.Id);
+            modelBuilder.Entity<ShipmentExtensionEntity>().ToTable("OrderShipmentExtension");
+            #endregion
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -63,6 +69,10 @@ namespace VirtoCommerce.OrderExtModule.Web
 
         public IQueryable<OrderLineItemExtensionEntity> OrderLineItemExtended {
             get { return GetAsQueryable<OrderLineItemExtensionEntity>(); }
+        }
+
+        public IQueryable<ShipmentExtensionEntity> ShipmentExtended {
+            get { return GetAsQueryable<ShipmentExtensionEntity>(); }
         }
 
         public override CustomerOrderEntity[] GetCustomerOrdersByIds(string[] ids, CustomerOrderResponseGroup responseGroup)
