@@ -204,13 +204,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201611280955464_Initial.cs" />
-    <Compile Include="Migrations\201611280955464_Initial.Designer.cs">
-      <DependentUpon>201611280955464_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201701080326172_ShipmentExtensionMigration.cs" />
-    <Compile Include="Migrations\201701080326172_ShipmentExtensionMigration.Designer.cs">
-      <DependentUpon>201701080326172_ShipmentExtensionMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201701081850057_Initial.cs" />
+    <Compile Include="Migrations\201701081850057_Initial.Designer.cs">
+      <DependentUpon>201701081850057_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CustomerOrderExtension.cs" />
@@ -227,15 +223,12 @@
     <Compile Include="Services\CustomerOrderBuilderExtImpl.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611280955464_Initial.resx">
-      <DependentUpon>201611280955464_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201701080326172_ShipmentExtensionMigration.resx">
-      <DependentUpon>201701080326172_ShipmentExtensionMigration.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Scripts\libraries\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Scripts\libraries\" />
+    <EmbeddedResource Include="Migrations\201701081850057_Initial.resx">
+      <DependentUpon>201701081850057_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
