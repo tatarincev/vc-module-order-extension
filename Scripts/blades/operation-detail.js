@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.operationDetailController', ['$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.orderModule.order_res_customerOrders', 'platformWebApp.objCompareService', '$timeout', 'focus',
-    function ($scope, dialogService, bladeNavigationService, customerOrders, objCompareService, $timeout, focus) {
+.controller('virtoCommerce.orderModule.operationDetailController', ['$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.orderModule.order_res_customerOrders', 'virtoCommerce.orderModule.stripe_res', 'platformWebApp.objCompareService', '$timeout', 'focus',
+    function ($scope, dialogService, bladeNavigationService, customerOrders, stripe_res, objCompareService, $timeout, focus) {
         var blade = $scope.blade;
         blade.updatePermission = 'order:update';
 
@@ -157,24 +157,79 @@
             },
             permission: 'order:delete'
         },
+        //{
+        //    name: "orders.commands.cancel-document", icon: 'fa fa-remove',
+        //    executeMethod: function () {
+        //        var dialog = {
+        //            id: "confirmCancelOperation",
+        //            callback: function (reason) {
+        //                if (reason) {
+        //                    blade.currentEntity.cancelReason = reason;
+        //                    blade.currentEntity.isCancelled = true;
+        //                    blade.currentEntity.status = 'Cancelled';
+        //                    $scope.saveChanges();
+        //                }
+        //            }
+        //        };
+        //        dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/cancelOperation-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
+        //    },
+        //    canExecuteMethod: function () {
+        //        return blade.currentEntity && !blade.currentEntity.isCancelled;
+        //    },
+        //    permission: blade.updatePermission
+        //},
         {
-            name: "orders.commands.cancel-document", icon: 'fa fa-remove',
+            name: "orders.commands.capture-payment", icon: 'fa fa-money',
             executeMethod: function () {
                 var dialog = {
-                    id: "confirmCancelOperation",
+                    id: "confirmCapturePayment",
+                    callback: function (reason) {
+
+                        stripe_res.capturePayment({ orderId: blade.origEntity.id }, function (data, headers) {
+                            blade.customerOrder.status = 'Processing';
+                            blade.customerOrder.inPayments[0].paymentStatus = 'Paid';
+
+                            $scope.saveChanges();
+                        },
+                        function (error) {
+                            bladeNavigationService.setError('Error ' + error.status, blade);
+                        });
+                        
+                    }
+                };
+                dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/capturePayment-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
+            },
+            canExecuteMethod: function () {
+                return blade.customerOrder.inPayments[0].status == "Authorized";
+            },
+            permission: blade.updatePermission
+        },
+        {
+            name: "orders.commands.refund-payment", icon: 'fa fa-money',
+            executeMethod: function () {
+                var dialog = {
+                    id: "confirmRefundPayment",
                     callback: function (reason) {
                         if (reason) {
-                            blade.currentEntity.cancelReason = reason;
-                            blade.currentEntity.isCancelled = true;
-                            blade.currentEntity.status = 'Cancelled';
-                            $scope.saveChanges();
+                            
+                            stripe_res.refundPayment({ orderId: blade.origEntity.id }, function (data, headers) {
+                                blade.customerOrder.cancelReason = 'REFUNDED : ' + reason;
+                                blade.customerOrder.isCancelled = true;
+                                blade.customerOrder.status = 'Cancelled';
+                                blade.customerOrder.inPayments[0].paymentStatus = 'Refunded';
+
+                                $scope.saveChanges();
+                            },
+                            function (error) {
+                                bladeNavigationService.setError('Error ' + error.status, blade);
+                            });
                         }
                     }
                 };
                 dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/cancelOperation-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
             },
             canExecuteMethod: function () {
-                return blade.currentEntity && !blade.currentEntity.isCancelled;
+                return blade.customerOrder.inPayments[0].status == "Paid";
             },
             permission: blade.updatePermission
         }

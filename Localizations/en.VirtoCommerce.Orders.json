@@ -215,6 +215,10 @@
           "reason": "Please enter cancel reason here..."
         }
       },
+      "operation-capture-payment": {
+        "title": "Capture payment",
+        "message": "Are you sure you want to capture payment(s) for this order?"
+      },
       "orders-cpc": {
         "title": "Add Product Configuration",
         "message": "Coming Soon! This button will open the product configuration widget."
@@ -226,7 +230,9 @@
       "add-selected": "Add selected",
       "add-catalog-item": "Catalog item",
       "add-product-configuration": "Product configuration",
-      "clone": "Clone"
+      "clone": "Clone",
+      "capture-payment": "Capture payment",
+      "refund-payment": "Refund payment"
     }
   }
 }

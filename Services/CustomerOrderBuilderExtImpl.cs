@@ -4,12 +4,15 @@ using System.Linq;
 using System.Web;
 using VirtoCommerce.Domain.Order.Services;
 using VirtoCommerce.Domain.Store.Services;
+using VirtoCommerce.Domain.ProductConfiguration.Services;
 using VirtoCommerce.OrderExtModule.Web.Model;
 using VirtoCommerce.OrderModule.Data.Services;
 using orderModel = VirtoCommerce.Domain.Order.Model;
 using cartModel = VirtoCommerce.Domain.Cart.Model;
 using VirtoCommerce.Platform.Core.Common;
 using VirtoCommerce.Domain.Commerce.Model;
+using VirtoCommerce.CartExtModule.Web.Model;
+using VirtoCommerce.Domain.ProductConfiguration.Model;
 
 namespace VirtoCommerce.OrderExtModule.Web.Services {
 
@@ -19,10 +22,12 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
     public class CustomerOrderBuilderExtImpl : CustomerOrderBuilderImpl {
         private ICustomerOrderService _customerOrderService;
         private IStoreService _storeService;
+        private IProductConfigurationRequestService _productConfigurationRequestService;
 
-        public CustomerOrderBuilderExtImpl(ICustomerOrderService customerOrderService, IStoreService storeService) : base(customerOrderService, storeService) {
+        public CustomerOrderBuilderExtImpl(ICustomerOrderService customerOrderService, IStoreService storeService, IProductConfigurationRequestService productConfigurationRequestService) : base(customerOrderService, storeService) {
             _storeService = storeService;
             _customerOrderService = customerOrderService;
+            _productConfigurationRequestService = productConfigurationRequestService;
         }
 
         public override orderModel.CustomerOrder PlaceCustomerOrderFromCart(cartModel.ShoppingCart cart) {
@@ -35,32 +40,71 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
 
             customerOrder = _customerOrderService.GetByIds(new[] { customerOrder.Id }).FirstOrDefault();
 
-            //Redistribute order line items to shipment if cart shipment items empty 
-            var shipment = customerOrder.Shipments.FirstOrDefault();
-            if (shipment != null && shipment.Items.IsNullOrEmpty()) {
-                int i = 0;
-                foreach (var lineItem in customerOrder.Items) {
-                    try {
-                        shipment.Items = new List<orderModel.ShipmentItem>();
-                        shipment.Items.Add(new orderModel.ShipmentItem { LineItemId = lineItem.Id, LineItem = lineItem, Quantity = lineItem.Quantity });
-                    } catch (Exception e) {
-                        Console.Write(e.Message);
-                    }
+            ////Redistribute order line items to shipment if cart shipment items empty 
+            //var shipment = customerOrder.Shipments.FirstOrDefault();
+            //if (customerOrder.Shipments.Any() && shipment.Items.IsNullOrEmpty()) {
 
-                    i++;
+            //    int i = 0;
+            //    foreach (var lineItem in customerOrder.Items) {
+            //        try {
+            //            shipment.Items = new List<orderModel.ShipmentItem>();
+            //            shipment.Items.Add(new orderModel.ShipmentItem { LineItemId = lineItem.Id, LineItem = lineItem, Quantity = lineItem.Quantity });
+            //        } catch (Exception e) {
+            //            Console.Write(e.Message);
+            //        }
+
+            //        i++;
+            //    }
+            //}
+
+            //try {
+            //    _customerOrderService.SaveChanges(new[] { customerOrder });
+            //} catch (Exception ex) {
+            //    Console.Write(ex.Message);
+            //}
+
+            //customerOrder = _customerOrderService.GetByIds(new[] { customerOrder.Id }).FirstOrDefault();
+
+            //TODO clone product configurations from line items that are and reassign them their new CPC number.
+            foreach (var item in customerOrder.Items) {
+                List<ProductConfigurationRequest> updateCPCList = new List<ProductConfigurationRequest>();
+                var extItem = item as OrderLineItemExtension;
+
+                if (!string.IsNullOrEmpty(extItem.ProductConfigurationRequestId)) {
+                    ProductConfigurationRequest lineItemCPC = _productConfigurationRequestService.GetByIds(extItem.ProductConfigurationRequestId).FirstOrDefault();
+                    if (lineItemCPC != null) {
+                        lineItemCPC.Id = null;
+                        lineItemCPC.OrderLineItemId = customerOrder.Id; //need to assign the right order id
+                        lineItemCPC.CartLineItemId = null;
+                        lineItemCPC.QuoteLineItemId = null;
+                        lineItemCPC.ProductConfiguration.Id = null;
+                        lineItemCPC.Number = null;
+                        lineItemCPC.Status = "Ordered";
+                        lineItemCPC.CreatedDate = DateTime.UtcNow;
+                        lineItemCPC.ModifiedDate = null;
+                        lineItemCPC.ProductConfiguration.LineItems = lineItemCPC.ProductConfiguration.LineItems.Select(c => { c.Id = null; return c; }).ToList();
+
+                        updateCPCList.Add(lineItemCPC);
+                        var resultCPC = _productConfigurationRequestService.SaveChanges(updateCPCList.ToArray());
+                        extItem.ProductConfigurationRequestId = resultCPC.First().Id;
+                    }
                 }
             }
 
-            try {
-                _customerOrderService.SaveChanges(new[] { customerOrder });
-            } catch (Exception ex) {
-                Console.Write(ex.Message);
-            }
-
-            customerOrder = _customerOrderService.GetByIds(new[] { customerOrder.Id }).FirstOrDefault();
-
             return customerOrder;
         }
+
+        //protected override orderModel.ShipmentItem ToOrderModel(cartModel.ShipmentItem shipmentItem) {
+        //    var result = base.ToOrderModel(shipmentItem) as orderModel.ShipmentItem;
+
+        //    return result;
+        //}
+
+        //protected override orderModel.PaymentIn ToOrderModel(cartModel.Payment payment) {
+        //    var result = base.ToOrderModel(payment) as orderModel.PaymentIn;
+
+        //    return result;
+        //}
 
         protected override orderModel.CustomerOrder ConvertCartToOrder(cartModel.ShoppingCart cart) {
             var retVal = AbstractTypeFactory<orderModel.CustomerOrder>.TryCreateInstance();
@@ -161,18 +205,55 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
             return retVal;
         }
 
-        //protected override orderModel.LineItem ToOrderModel(VirtoCommerce.Domain.Cart.Model.LineItem lineItem) {
-        //    var result = base.ToOrderModel(lineItem) as OrderLineItemExtension;
+        protected override orderModel.LineItem ToOrderModel(cartModel.LineItem lineItem) {
 
-        //    if (result != null) {
-        //        //Next lines just copy OuterId from cart LineItem2 to order LineItem2
-        //        var cartLineItem2 = lineItem as CartLineItemExtension;
-        //        if (cartLineItem2 != null) {
-        //            result.ProductConfigurationRequestId = cartLineItem2.ProductConfigurationRequestId;
-        //        }
-        //    }
-        //    return result;
-        //}
+            if (lineItem == null)
+                throw new ArgumentNullException("lineItem");
+
+            var retVal = AbstractTypeFactory<orderModel.LineItem>.TryCreateInstance();
+
+            retVal.CatalogId = lineItem.CatalogId;
+            retVal.CategoryId = lineItem.CategoryId;
+            retVal.Comment = lineItem.Note;
+            retVal.Currency = lineItem.Currency;
+            retVal.Height = lineItem.Height;
+            retVal.ImageUrl = lineItem.ImageUrl;
+            retVal.IsGift = lineItem.IsGift;
+            retVal.Length = lineItem.Length;
+            retVal.MeasureUnit = lineItem.MeasureUnit;
+            retVal.Name = lineItem.Name;
+            retVal.PriceId = lineItem.PriceId;
+            retVal.ProductId = lineItem.ProductId;
+            retVal.ProductType = lineItem.ProductType;
+            retVal.Quantity = lineItem.Quantity;
+            retVal.Sku = lineItem.Sku;
+            retVal.TaxPercentRate = lineItem.TaxPercentRate;
+            retVal.TaxType = lineItem.TaxType;
+            retVal.Weight = lineItem.Weight;
+            retVal.WeightUnit = lineItem.WeightUnit;
+            retVal.Width = lineItem.Width;
+
+            retVal.DiscountAmount = lineItem.DiscountAmount;
+            retVal.Price = lineItem.ListPrice;
+
+            retVal.FulfillmentLocationCode = lineItem.FulfillmentLocationCode;
+            retVal.DynamicProperties = null; //to prevent copy dynamic properties from ShoppingCart LineItem to Order LineItem
+            if (lineItem.Discounts != null) {
+                retVal.Discounts = lineItem.Discounts.Select(x => ToOrderModel(x)).ToList();
+            }
+            retVal.TaxDetails = lineItem.TaxDetails;
+
+            var result = retVal as Model.OrderLineItemExtension;
+
+            if (result != null) {
+                //Next lines just copy OuterId from cart LineItem2 to order LineItem2
+                var cartLineItem2 = lineItem as CartExtModule.Web.Model.CartLineItemExtension;
+                if (cartLineItem2 != null) {
+                    result.ProductConfigurationRequestId = cartLineItem2.ProductConfigurationRequestId;
+                }
+            }
+            return result;
+        }
 
     }
 }

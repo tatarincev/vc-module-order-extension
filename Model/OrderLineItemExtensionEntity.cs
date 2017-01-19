@@ -16,17 +16,12 @@ namespace VirtoCommerce.OrderExtModule.Web.Model {
         public string ProductConfigurationRequestId { get; set; }
 
         public override LineItem ToModel(LineItem lineItem) {
-            // Here you can write code for custom mapping
-            // supplier properties will be mapped in base method implementation by using value injection
-            var retVal = base.ToModel(lineItem) as OrderLineItemExtension;
 
-            return retVal;
+            return base.ToModel(lineItem);
         }
 
         public override LineItemEntity FromModel(LineItem lineItem, PrimaryKeyResolvingMap pkMap) {
-            var retVal = base.FromModel(lineItem, pkMap) as OrderLineItemExtensionEntity;
-
-            return retVal;
+            return base.FromModel(lineItem, pkMap);
         }
 
         public override void Patch(LineItemEntity target) {

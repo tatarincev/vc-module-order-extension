@@ -8,4 +8,11 @@
         update: { method: 'PUT', url: 'api/order/customerOrders' },
         getDashboardStatistics: { url: 'api/order/dashboardStatistics' }
     });
+}])
+.factory('virtoCommerce.orderModule.stripe_res', ['$resource', function ($resource) {
+    return $resource('api/stripe', { orderId: '@Id'}, {
+        capturePayment: { url: 'api/stripe/capture-payment/:orderId' },
+        refundPayment: { url: 'api/stripe/refund-payment/:orderId' }
+    });
+
 }]);
