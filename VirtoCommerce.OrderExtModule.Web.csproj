@@ -118,7 +118,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="VirtoCommerce.Domain, Version=2.19.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\VirtoCommerce.Domain.2.19.3\lib\net451\VirtoCommerce.Domain.dll</HintPath>
+      <HintPath>packages\VirtoCommerce.Domain.2.19.3\lib\net451\VirtoCommerce.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.13.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -126,11 +126,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.Platform.Core, Version=2.12.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\VirtoCommerce.Platform.Core.2.12.5\lib\net461\VirtoCommerce.Platform.Core.dll</HintPath>
+      <HintPath>packages\VirtoCommerce.Platform.Core.2.12.5\lib\net461\VirtoCommerce.Platform.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.Platform.Data, Version=2.12.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\VirtoCommerce.Platform.Data.2.12.5\lib\net461\VirtoCommerce.Platform.Data.dll</HintPath>
+      <HintPath>packages\VirtoCommerce.Platform.Data.2.12.5\lib\net461\VirtoCommerce.Platform.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
