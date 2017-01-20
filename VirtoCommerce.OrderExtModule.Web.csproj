@@ -117,8 +117,16 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="VirtoCommerce.CartExtModule.Web, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\VirtoCommerce.CartExtModule.Web.1.0.0\lib\net461\VirtoCommerce.CartExtModule.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="VirtoCommerce.Domain, Version=2.19.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\VirtoCommerce.Domain.2.19.3\lib\net451\VirtoCommerce.Domain.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="VirtoCommerce.Domain.ProductConfiguration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\VirtoCommerce.Domain.ProductConfiguration.1.0.0\lib\net461\VirtoCommerce.Domain.ProductConfiguration.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.13.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -171,7 +179,15 @@
     <Content Include="Scripts\customer-order-extension.js" />
     <Content Include="Localizations\en.VirtoCommerce.Orders.json" />
     <Content Include="packages.config" />
+    <Content Include="Localizations\en.VirtoCommerce.Cart.json" />
     <None Include="Properties\PublishProfiles\prod.pubxml" />
+    <Content Include="Nuget.config" />
+    <Content Include="Nuget.Debug.config">
+      <DependentUpon>Nuget.config</DependentUpon>
+    </Content>
+    <Content Include="Nuget.Release.config">
+      <DependentUpon>Nuget.config</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
