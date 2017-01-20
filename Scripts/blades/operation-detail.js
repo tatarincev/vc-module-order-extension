@@ -157,6 +157,23 @@
             },
             permission: 'order:delete'
         },
+        {
+            name: "orders.commands.invoice", icon: 'fa fa-file-text-o',
+            executeMethod: function () {
+                var dialog = {
+                    id: "invoice",
+                    title: "Invoice",
+                    callback: function () {
+                        
+                    }
+                };
+                dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/invoice-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
+            },
+            canExecuteMethod: function () {
+                return blade.currentEntity && !blade.currentEntity.isCancelled;
+            },
+            permission: blade.updatePermission
+        },
         //{
         //    name: "orders.commands.cancel-document", icon: 'fa fa-remove',
         //    executeMethod: function () {
@@ -200,7 +217,12 @@
                 dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/capturePayment-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
             },
             canExecuteMethod: function () {
-                return blade.customerOrder.inPayments[0].status == "Authorized";
+                if (blade.customerOrder.inPayments.length > 0) {
+                    return blade.customerOrder.inPayments[0].status == "Authorized";
+                }
+                else {
+                    return false;
+                }
             },
             permission: blade.updatePermission
         },
@@ -229,7 +251,12 @@
                 dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/cancelOperation-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
             },
             canExecuteMethod: function () {
-                return blade.customerOrder.inPayments[0].status == "Paid";
+                if (blade.customerOrder.inPayments.length > 0) {
+                    return blade.customerOrder.inPayments[0].status == "Paid" && blade.customerOrder.inPayments[0].gatewayCode == 'Stripe.Payment';
+                }
+                else {
+                    return false;
+                }
             },
             permission: blade.updatePermission
         }

@@ -232,7 +232,8 @@
       "add-product-configuration": "Product configuration",
       "clone": "Clone",
       "capture-payment": "Capture payment",
-      "refund-payment": "Refund payment"
+      "refund-payment": "Refund payment",
+      "invoice": "Invoice"
     }
   }
 }

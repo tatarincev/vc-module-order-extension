@@ -205,6 +205,49 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
             return retVal;
         }
 
+        protected override orderModel.Shipment ToOrderModel(cartModel.Shipment shipment) {
+            var retVal = AbstractTypeFactory<orderModel.Shipment>.TryCreateInstance();
+            retVal.Currency = shipment.Currency;
+            retVal.DiscountAmount = shipment.DiscountAmount;
+            retVal.Height = shipment.Height;
+            retVal.Length = shipment.Length;
+            retVal.MeasureUnit = shipment.MeasureUnit;
+            retVal.ShipmentMethodCode = shipment.ShipmentMethodCode;
+            retVal.ShipmentMethodOption = shipment.ShipmentMethodOption;
+            retVal.Sum = shipment.Total;
+            retVal.Weight = shipment.Weight;
+            retVal.WeightUnit = shipment.WeightUnit;
+            retVal.Width = shipment.Width;
+            retVal.TaxPercentRate = shipment.TaxPercentRate;
+            retVal.DiscountAmount = shipment.DiscountAmount;
+            retVal.Price = shipment.Price;
+            retVal.Status = "New";
+            if (shipment.DeliveryAddress != null) {
+                retVal.DeliveryAddress = shipment.DeliveryAddress;
+            }
+            //if (shipment.Items != null)
+            //{
+            //    retVal.Items = shipment.Items.Select(x => ToOrderModel(x)).ToList();
+            //}
+            if (shipment.Discounts != null) {
+                retVal.Discounts = shipment.Discounts.Select(x => ToOrderModel(x)).ToList();
+            }
+            retVal.TaxDetails = shipment.TaxDetails;
+
+            var result = retVal as Model.ShipmentExtension;
+
+            if (result != null) {
+                //Next lines just copy OuterId from cart LineItem2 to order LineItem2
+                var shipment2 = shipment as CartExtModule.Web.Model.ShipmentExtension;
+                if (shipment2 != null) {
+                    result.HasLoadingDock = shipment2.HasLoadingDock;
+                    result.IsCommercial = shipment2.IsCommercial;
+                    result.Comment = shipment2.Comment;
+                }
+            }
+            return result;
+        }
+
         protected override orderModel.LineItem ToOrderModel(cartModel.LineItem lineItem) {
 
             if (lineItem == null)
