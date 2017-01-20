@@ -179,7 +179,6 @@
     <Content Include="Scripts\customer-order-extension.js" />
     <Content Include="Localizations\en.VirtoCommerce.Orders.json" />
     <Content Include="packages.config" />
-    <Content Include="Localizations\en.VirtoCommerce.Cart.json" />
     <None Include="Properties\PublishProfiles\prod.pubxml" />
     <Content Include="Nuget.config" />
     <Content Include="Nuget.Debug.config">
