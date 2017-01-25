@@ -49,7 +49,7 @@ namespace VirtoCommerce.OrderExtModule.Web
 
         public override void PostInitialize()
         {
-            base.Initialize();
+            base.PostInitialize();
             AbstractTypeFactory<IOperation>.OverrideType<CustomerOrder, CustomerOrderExtension>();
             AbstractTypeFactory<CustomerOrderEntity>.OverrideType<CustomerOrderEntity, CustomerOrderExtensionEntity>();
             AbstractTypeFactory<CustomerOrder>.OverrideType<CustomerOrder, CustomerOrderExtension>()
