@@ -224,10 +224,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201701250525425_Initial.cs" />
-    <Compile Include="Migrations\201701250525425_Initial.Designer.cs">
-      <DependentUpon>201701250525425_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CustomerOrderExtension.cs" />
     <Compile Include="Model\CustomerOrderExtensionEntity.cs" />
@@ -244,11 +240,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\libraries\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701250525425_Initial.resx">
-      <DependentUpon>201701250525425_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

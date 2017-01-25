@@ -6,8 +6,7 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
     public partial class Initial : DbMigration
     {
         public override void Up()
-        {
-            
+        {            
             CreateTable(
                 "dbo.CustomerOrderExtension",
                 c => new
