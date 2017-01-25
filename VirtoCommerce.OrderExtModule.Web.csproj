@@ -224,9 +224,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201701250342056_Initial.cs" />
-    <Compile Include="Migrations\201701250342056_Initial.Designer.cs">
-      <DependentUpon>201701250342056_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201701250525425_Initial.cs" />
+    <Compile Include="Migrations\201701250525425_Initial.Designer.cs">
+      <DependentUpon>201701250525425_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\CustomerOrderExtension.cs" />
@@ -246,8 +246,8 @@
     <Folder Include="Scripts\libraries\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701250342056_Initial.resx">
-      <DependentUpon>201701250342056_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201701250525425_Initial.resx">
+      <DependentUpon>201701250525425_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

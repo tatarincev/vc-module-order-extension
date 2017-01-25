@@ -80,7 +80,6 @@ namespace VirtoCommerce.OrderExtModule.Web.Migrations
             DropTable("dbo.OrderLineItemExtension");
             DropTable("dbo.OrderInvoice");
             DropTable("dbo.CustomerOrderExtension");
-
         }
     }
 }
