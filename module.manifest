@@ -45,8 +45,6 @@
           <value>Pending</value>
           <value>Authorized</value>
           <value>Cancelled</value>
-          <value>Sample2</value>
-          <value>Sample3</value>
         </arrayValues>
       </setting>
     </group>

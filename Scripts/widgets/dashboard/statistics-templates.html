@@ -60,7 +60,7 @@
             </table>
             <table class="order-summary-stats">
                 <tr>
-                    <td><strong>2016: </strong></td>
+                    <td><strong>{{currentYear}}: </strong></td>
                     <td>{{$storage.ordersDashboardStatistics.CurrentYear.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.CurrentYear.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
@@ -68,7 +68,7 @@
                     <td>{{$storage.ordersDashboardStatistics.CurrentYear.Projected.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.CurrentYear.Projected.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>
-                    <td><strong>2015: </strong></td>
+                    <td><strong>{{lastYear}}: </strong></td>
                     <td>{{$storage.ordersDashboardStatistics.LastYear.TotalSales.orderCount}} Order(s), {{$storage.ordersDashboardStatistics.LastYear.TotalSales.amount | currency:"USD $":2}}</td>
                 </tr>
                 <tr>

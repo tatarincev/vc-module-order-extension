@@ -594,7 +594,7 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 
 
 	            //statistics for last month          
-	            var dates = getMonthDateRange(moment().year(), moment().subtract(1, 'month').month())
+	            var dates = getMonthDateRange(moment().subtract(1, 'month').year(), moment().subtract(1, 'month').month())
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
@@ -626,7 +626,9 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.CurrentYear = {};
+	                    if ($localStorage.ordersDashboardStatistics.CurrentYear == undefined) {
+	                        $localStorage.ordersDashboardStatistics.CurrentYear = {};
+	                    }
 	                    $localStorage.ordersDashboardStatistics.CurrentYear.TotalSales = data;
 	                }
 	            },
@@ -643,7 +645,9 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                    data.amount = Math.floor(data.amount + (data.amount * 31 / 100));
 	                    data.orderCount = Math.floor(data.orderCount + (data.orderCount * 31 / 100));
 
-	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = {};
+	                    if ($localStorage.ordersDashboardStatistics.CurrentYear == undefined) {
+	                        $localStorage.ordersDashboardStatistics.CurrentYear = {};
+	                    }
 	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = data;
 	                }
 	            },
