@@ -1,32 +1,153 @@
 ﻿<div class="modal-header">
     <h3 class="modal-title">{{title | translate: titleValues}}</h3>
+    <div class="blade-toolbar">
+        <ul class="menu __inline">
+            <li class="menu-item" ng-click="printInvoice()">
+                <button class="menu-btn">
+                    <i class="menu-ico fa fa-print" ng-class="toolbarCommand.icon"></i>
+                    Print
+                </button>
+            </li>
+            <li class="menu-item" ng-click="sendEmail()">
+                <button class="menu-btn">
+                    <i class="menu-ico fa fa-envelope-o" ng-class="toolbarCommand.icon"></i>
+                    Send by email
+                </button>
+            </li>
+        </ul>
+    </div>
 </div>
-<div class="modal-body cpc-detail">
-    <div class="col-xs-6">
-        <div class="item" ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems">
-            <div class="product-img" ng-if="lineItem.preview.image">
-                <div class="image" style="background-image: url({{lineItem.preview.image}}); z-index: {{lineItem.preview.index}};"></div>
+<div id="invoice-detail" class="modal-body">
+    <div class="header">
+        <div class="logo"><img src="https://framemytv.blob.core.windows.net/admin/framemytv-logo.png" /></div>
+        <div class="row">
+            <div class="column">
+                FrameMyTV.com LLC<br />419 River Street<br />Haverhill, MA 01832<br />978.912.7200<br />USA
+            </div>
+            <div class="column text-right">
+                Order {{customerOrder.number}}<br />{{customerOrder.createdDate | date:'medium'}}<br />(Invoice # )
+            </div>
+        </div>
+        <div class="row">
+            <div class="column" ng-if="!customerOrder.inPayments[0].billingAddress">
+                <h4>Bill To</h4>
+                <div>
+                    {{customerOrder.addresses[0].firstName}}&nbsp;{{customerOrder.addresses[0].lastName}}<br />{{customerOrder.addresses[0].line1}}<br />{{customerOrder.addresses[0].regionName}}, {{customerOrder.addresses[0].countryCode}} {{customerOrder.addresses[0].postalCode}}
+                </div>
+                <div>
+                    Phone: 626-483-3232<br />bruce@bgchapman.com
+                </div>
+            </div>
+            <div class="column" ng-if="customerOrder.inPayments[0].billingAddress">
+                <h4>Bill To</h4>
+                <div>
+                    {{customerOrder.inPayments[0].billingAddress.firstName}}&nbsp;{{customerOrder.inPayments[0].billingAddress.lastName}}<br />{{customerOrder.inPayments[0].billingAddress.line1}}<br />{{customerOrder.inPayments[0].billingAddress.regionName}}, {{customerOrder.inPayments[0].billingAddress.countryCode}} {{customerOrder.inPayments[0].billingAddress.postalCode}}<br /><span ng-if="customerOrder.inPayments[0].billingAddress.isCommercial">(Commercial)</span><span ng-if="!customerOrder.inPayments[0].billingAddress.isCommercial">(A residence)</span><br /><span ng-if="customerOrder.inPayments[0].billingAddress.hasLoadingDock">has loading dock</span>
+                </div>
+                <div>
+                    Phone: {{customerOrder.inPayments[0].billingAddress.phone}}<br />{{customerOrder.inPayments[0].billingAddress.email}}
+                </div>
+            </div>
+            <div class="column text-right" ng-if="customerOrder.shipments[0].deliveryAddress">
+                <h4>Ship To</h4>
+                <div>
+                    {{customerOrder.shipments[0].deliveryAddress.firstName}}&nbsp;{{customerOrder.shipments[0].deliveryAddress.lastName}}<br />{{customerOrder.shipments[0].deliveryAddress.line1}}<br />{{customerOrder.shipments[0].deliveryAddress.regionName}}, {{customerOrder.shipments[0].deliveryAddress.countryCode}} {{customerOrder.shipments[0].deliveryAddress.postalCode}}<br /><span ng-if="customerOrder.shipments[0].deliveryAddress.isCommercial">(Commercial)</span><span ng-if="!customerOrder.shipments[0].deliveryAddress.isCommercial">(A residence)</span><br /><span ng-if="customerOrder.shipments[0].deliveryAddress.hasLoadingDock">has loading dock</span>
+                </div>
+                <div>
+                    Phone: {{customerOrder.shipments[0].deliveryAddress.phone}}<br />{{customerOrder.shipments[0].deliveryAddress.email}}
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-xs-6">
-        <div class="col-xs-6">
-            <h3>Design</h3>
-            <div ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems | orderBy:'category'">
-                <div class="item-row" ng-if="lineItem.category != 'Options'">
-                    <div class="title"><strong>{{lineItem.name}}</strong></div>
-                    <div class="desc" ng-bind-html="toTrustedHTML(lineItem.description)"></div>
-                </div>
-            </div>
+    <div>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="table-col __proudct-img">{{ 'orders.blades.customerOrder-items.labels.item' | translate }}</th>
+                        <th class="table-col">description</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.quantity' | translate }}</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.price' | translate }}</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.priceWithTax' | translate }}</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.discount' | translate }}</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.discountWithTax' | translate }}</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.tax' | translate }}</th>
+                        <th class="table-col">{{ 'orders.blades.customerOrder-items.labels.total' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-item order-items" ng-repeat="data in customerOrder.items">
+                        <td class="table-col">
+
+                            <div ng-repeat="lineItem in data.productConfiguration.productConfiguration.lineItems">
+                                <div ng-click="openLineItemDetailModal(data)" class="product-img" ng-if="lineItem.preview.image">
+                                    <div class="image" style="background-image: url({{lineItem.preview.image}}); z-index: {{lineItem.preview.index}};"></div>
+                                </div>
+                            </div>
+
+                            <div class="product-img" ng-if="data.productConfiguration == null">
+                                <img class="image" src="{{data.imageUrl}}" ng-if="data.imageUrl" />
+                                <i class="table-ico fa fa-image" ng-if="!data.imageUrl" />
+                            </div>
+
+                        </td>
+                        <td class="table-col">{{data.name}}</td>
+                        <td class="table-col">
+                            <div class="form-input __mini __inline">
+                                <div class="form-input __mini __number">
+                                    {{data.quantity}}
+                                </div>
+                            </div>
+                        </td>
+                        <td class="table-col">
+                            <div class="form-input __mini">
+                                {{data.price}}
+                            </div>
+                        </td>
+                        <td class="table-col">
+                            <span class="list-price">{{data.priceWithTax | number:2}}</span>
+                        </td>
+                        <td class="table-col">
+                            <div class="form-input __mini __inline">
+                                {{data.discountAmount}}
+                            </div>
+                        </td>
+                        <td class="table-col">
+                            <span class="list-price">{{data.discountAmountWithTax | number:2}}</span>
+                        </td>
+                        <td class="table-col">
+                            <span class="list-price">{{data.taxTotal | number:2}}</span>
+                        </td>
+                        <td class="table-col __total">
+                            <span class="list-price">{{data.extendedPriceWithTax | number:2 }}</span>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
-        <div class="col-xs-6">
-            <h3>Options</h3>
-            <div ng-repeat="lineItem in productConfigurationRequest.productConfiguration.productConfiguration.lineItems | orderBy:'category'">
-                <div class="item-row" ng-if="lineItem.category == 'Options'">
-                    <div class="title"><strong>{{lineItem.name}}</strong></div>
-                    <div class="desc" ng-bind-html="toTrustedHTML(lineItem.description)"></div>
-                </div>
-            </div>
+        <div class="table-wrapper">
+            <table class="table __collapsed __order-info">
+                <tr class="table-item">
+                    <td class="table-col">{{ 'orders.blades.customerOrder-items.labels.sub-total' | translate }}</td>
+                    <td class="table-col __price">${{customerOrder.subTotal | number:2}}</td>
+                </tr>
+                <tr class="table-item">
+                    <td class="table-col">{{ 'orders.widgets.customerOrder-totals.shipping-total' | translate }}</td>
+                    <td class="table-col __price">${{customerOrder.shippingSubTotal | number:2}}</td>
+                </tr>
+                <tr class="table-item">
+                    <td class="table-col">{{ 'orders.blades.customerOrder-items.labels.discount-total' | translate }}</td>
+                    <td class="table-col __price">${{customerOrder.subTotalDiscount | number:2}}</td>
+                </tr>
+                <tr class="table-item">
+                    <td class="table-col">{{ 'orders.blades.customerOrder-items.labels.tax-total' | translate }}</td>
+                    <td class="table-col __price">${{ customerOrder.subTotalTaxTotal | number:2}}</td>
+                </tr>
+                <tr class="table-item __total">
+                    <td class="table-col">{{ 'orders.blades.customerOrder-items.labels.total' | translate }}</td>
+                    <td class="table-col __price">${{ (customerOrder.total) | number:2}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

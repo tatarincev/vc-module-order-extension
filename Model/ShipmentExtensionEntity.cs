@@ -5,6 +5,7 @@ using System.Web;
 using VirtoCommerce.OrderModule.Data.Model;
 using VirtoCommerce.Domain.Order.Model;
 using VirtoCommerce.Platform.Core.Common;
+using System.Collections.ObjectModel;
 
 namespace VirtoCommerce.OrderExtModule.Web.Model {
     public class ShipmentExtensionEntity : ShipmentEntity {
@@ -19,6 +20,8 @@ namespace VirtoCommerce.OrderExtModule.Web.Model {
             shipment2.IsCommercial = this.IsCommercial;
             shipment2.HasLoadingDock = this.HasLoadingDock;
 
+            //shipment2.Items = this.Items.Select(x => x.ToModel(AbstractTypeFactory<ShipmentItem>.TryCreateInstance())).ToList();
+
             return shipment2;
         }
 
@@ -28,6 +31,10 @@ namespace VirtoCommerce.OrderExtModule.Web.Model {
             var shipment2 = shipment as ShipmentExtension;
             this.IsCommercial = shipment2.IsCommercial;
             this.HasLoadingDock = shipment2.HasLoadingDock;
+
+            //if (shipment2.Items != null) {
+            //    this.Items = new ObservableCollection<ShipmentItemEntity>(shipment2.Items.Select(x => AbstractTypeFactory<ShipmentItemEntity>.TryCreateInstance().FromModel(x, pkMap)));
+            //}
 
             return this;
         }

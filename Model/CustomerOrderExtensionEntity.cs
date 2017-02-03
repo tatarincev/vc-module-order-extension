@@ -7,24 +7,19 @@ using VirtoCommerce.Domain.Order.Model;
 using VirtoCommerce.OrderModule.Data.Model;
 using VirtoCommerce.Platform.Core.Common;
 
-namespace VirtoCommerce.OrderExtModule.Web.Model
-{
-    public class CustomerOrderExtensionEntity : CustomerOrderEntity
-    {
-        public CustomerOrderExtensionEntity()
-        {
+namespace VirtoCommerce.OrderExtModule.Web.Model {
+    public class CustomerOrderExtensionEntity : CustomerOrderEntity {
+        public CustomerOrderExtensionEntity() {
             Invoices = new NullCollection<InvoiceEntity>();
         }
 
         public virtual ObservableCollection<InvoiceEntity> Invoices { get; set; }
 
-        
-        public override OrderOperation ToModel(OrderOperation operation)
-        {
+
+        public override OrderOperation ToModel(OrderOperation operation) {
             var customerOrderExtension = operation as CustomerOrderExtension;
 
-            if (customerOrderExtension != null)
-            {
+            if (customerOrderExtension != null) {
                 customerOrderExtension.Invoices = this.Invoices.Select(x => x.ToModel(new Invoice())).OfType<Invoice>().ToList();
             }
 
@@ -33,29 +28,31 @@ namespace VirtoCommerce.OrderExtModule.Web.Model
             return operation;
         }
 
-        public override OperationEntity FromModel(OrderOperation operation, PrimaryKeyResolvingMap pkMap)
-        {
+        public override OperationEntity FromModel(OrderOperation operation, PrimaryKeyResolvingMap pkMap) {
             var customerOrderExtension = operation as CustomerOrderExtension;
-            if (customerOrderExtension != null)
-            {
-                if (customerOrderExtension.Invoices != null)
-                {
+            if (customerOrderExtension != null) {
+                if (customerOrderExtension.Invoices != null) {
                     this.Invoices = new ObservableCollection<InvoiceEntity>(customerOrderExtension.Invoices.Select(x => new InvoiceEntity().FromModel(x, pkMap)).OfType<InvoiceEntity>());
                 }
             }
 
             base.FromModel(operation, pkMap);
 
+            if (customerOrderExtension.Shipments != null) {
+                this.Shipments = new ObservableCollection<ShipmentEntity>(customerOrderExtension.Shipments.Select(x => AbstractTypeFactory<ShipmentEntity>.TryCreateInstance().FromModel(x, pkMap)).OfType<ShipmentEntity>());
+                //Link shipment item with order lineItem 
+                foreach (var shipmentItemEntity in this.Shipments.SelectMany(x => x.Items)) {
+                    shipmentItemEntity.LineItem = this.Items.FirstOrDefault(x => x.ModelLineItem == shipmentItemEntity.ModelLineItem);
+                }
+            }
+
             return this;
         }
 
-        public override void Patch(OperationEntity operation)
-        {
+        public override void Patch(OperationEntity operation) {
             var target = operation as CustomerOrderExtensionEntity;
-            if (target != null)
-            {
-                if (!this.Invoices.IsNullCollection())
-                {
+            if (target != null) {
+                if (!this.Invoices.IsNullCollection()) {
                     this.Invoices.Patch(target.Invoices, (sourceInvoice, targetInvoice) => sourceInvoice.Patch(targetInvoice));
                 }
             }

@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.orderModule')
-.controller('virtoCommerce.orderModule.operationDetailController', ['$scope', 'platformWebApp.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.orderModule.order_res_customerOrders', 'virtoCommerce.orderModule.stripe_res', 'platformWebApp.objCompareService', '$timeout', 'focus',
-    function ($scope, dialogService, bladeNavigationService, customerOrders, stripe_res, objCompareService, $timeout, focus) {
+.controller('virtoCommerce.orderModule.operationDetailController', ['$scope', 'platformWebApp.dialogService', 'virtoCommerce.orderModule.dialogService', 'platformWebApp.bladeNavigationService', 'virtoCommerce.orderModule.order_res_customerOrders', 'virtoCommerce.orderModule.stripe_res', 'platformWebApp.objCompareService', '$timeout', 'focus', 'virtoCommerce.productConfigurationModule.productConfigurations',
+    function ($scope, dialogService, moduleDialogService, bladeNavigationService, customerOrders, stripe_res, objCompareService, $timeout, focus, productConfigurations) {
         var blade = $scope.blade;
         blade.updatePermission = 'order:update';
 
@@ -14,6 +14,7 @@
                 customerOrders.get({ id: blade.customerOrder.id }, function (result) {
                     blade.initialize(result);
                     blade.customerOrder = blade.currentEntity;
+                    populateProductConfigurations();
                     //necessary for scope bounded ACL checks 
                     blade.securityScopes = result.scopes;
                 });
@@ -48,6 +49,29 @@
                 blade.isLoading = false;
             });
         };
+
+        function populateProductConfigurations() {
+            angular.forEach(blade.customerOrder.items, function (item) {
+
+                if (item.productConfigurationRequestId != null) {
+                    var criteria = {
+                        productConfigurationRequestId: item.productConfigurationRequestId,
+                        isordered: true
+                    };
+
+                    productConfigurations.search(criteria, function (data) {
+                        if (data.productConfigurationRequests.length > 0) {
+                            item.productConfiguration = data.productConfigurationRequests[0];
+                        }
+                    },
+                   function (error) {
+                       bladeNavigationService.setError('Error ' + error.status, blade);
+                   });
+                }
+            });
+
+            return blade.customerOrder;
+        }
 
         function isDirty() {
             return blade.origEntity && !objCompareService.equal(blade.origEntity, blade.currentEntity) && !blade.isNew && blade.hasUpdatePermission();
@@ -162,12 +186,13 @@
             executeMethod: function () {
                 var dialog = {
                     id: "invoice",
-                    title: "Invoice",
+                    title: "orders.commands.invoice",
+                    customerOrder: blade.customerOrder,
                     callback: function () {
-                        
+                        //no action required on callback
                     }
                 };
-                dialogService.showDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/invoice-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
+                moduleDialogService.showInvoiceDialog(dialog, 'Modules/$(VirtoCommerce.OrderExtension)/Scripts/dialogs/invoice-dialog.tpl.html', 'virtoCommerce.orderModule.confirmCancelDialogController');
             },
             canExecuteMethod: function () {
                 return blade.currentEntity && !blade.currentEntity.isCancelled;

@@ -12,6 +12,7 @@ using VirtoCommerce.Platform.Data.Infrastructure.Interceptors;
 using VirtoCommerce.OrderExtModule.Web.Migrations;
 using VirtoCommerce.OrderModule.Data.Services;
 using VirtoCommerce.OrderExtModule.Web.Services;
+using VirtoCommerce.Domain.Order.Services;
 
 namespace VirtoCommerce.OrderExtModule.Web
 {
@@ -44,6 +45,7 @@ namespace VirtoCommerce.OrderExtModule.Web
             _container.RegisterType<IOrderRepository>(new InjectionFactory(c => new OrderExtensionRepository(_connectionStringName, _container.Resolve<AuditableInterceptor>(), new EntityPrimaryKeyGeneratorInterceptor())));
             //Override ICustomerOrderBuilder default implementation
             _container.RegisterType<ICustomerOrderBuilder, CustomerOrderBuilderExtImpl>();
+            _container.RegisterType<ICustomerOrderService, CustomerOrderServiceExtImpl>();
 
         }
 

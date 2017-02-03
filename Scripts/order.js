@@ -297,11 +297,11 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	    //    size: [1, 1],
 	    //    template: 'order-statistics-lineitemsPerOrder.html'
 	    //}, 'mainDashboard');
-	    widgetService.registerWidget({
-	        controller: statisticsController,
-	        size: [3, 2],
-	        template: 'order-statistics-revenueByQuarter.html'
-	    }, 'mainDashboard');
+	    //widgetService.registerWidget({
+	    //    controller: statisticsController,
+	    //    size: [3, 2],
+	    //    template: 'order-statistics-revenueByQuarter.html'
+	    //}, 'mainDashboard');
 	    //widgetService.registerWidget({
 	    //    controller: statisticsController,
 	    //    size: [3, 2],
@@ -571,9 +571,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: start.toISOString(), end: end.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastWeek = {};
-	                    $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastWeek = {};
+	                $localStorage.ordersDashboardStatistics.LastWeek.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -584,9 +587,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.CurrentMonth = {};
-	                    $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.CurrentMonth = {};
+	                $localStorage.ordersDashboardStatistics.CurrentMonth.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -598,9 +604,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dates.start.toISOString(), end: dates.end.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastMonth = {};
-	                    $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastMonth = {};
+	                $localStorage.ordersDashboardStatistics.LastMonth.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -612,9 +621,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastSixMonth = {};
-	                    $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastSixMonth = {};
+	                $localStorage.ordersDashboardStatistics.LastSixMonth.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -626,11 +638,14 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    if ($localStorage.ordersDashboardStatistics.CurrentYear == undefined) {
-	                        $localStorage.ordersDashboardStatistics.CurrentYear = {};
-	                    }
-	                    $localStorage.ordersDashboardStatistics.CurrentYear.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                if ($localStorage.ordersDashboardStatistics.CurrentYear == undefined) {
+	                    $localStorage.ordersDashboardStatistics.CurrentYear = {};
+	                }
+	                $localStorage.ordersDashboardStatistics.CurrentYear.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -644,12 +659,14 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	                    data.amount = data.revenue[0].amount;
 	                    data.amount = Math.floor(data.amount + (data.amount * 31 / 100));
 	                    data.orderCount = Math.floor(data.orderCount + (data.orderCount * 31 / 100));
-
-	                    if ($localStorage.ordersDashboardStatistics.CurrentYear == undefined) {
-	                        $localStorage.ordersDashboardStatistics.CurrentYear = {};
-	                    }
-	                    $localStorage.ordersDashboardStatistics.CurrentYear.Projected = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                if ($localStorage.ordersDashboardStatistics.CurrentYear == undefined) {
+	                    $localStorage.ordersDashboardStatistics.CurrentYear = {};
+	                }
+	                $localStorage.ordersDashboardStatistics.CurrentYear.Projected = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -661,9 +678,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastYear = {};
-	                    $localStorage.ordersDashboardStatistics.LastYear.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastYear = {};
+	                $localStorage.ordersDashboardStatistics.LastYear.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -675,9 +695,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastThirtyDays = {};
-	                    $localStorage.ordersDashboardStatistics.LastThirtyDays.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastThirtyDays = {};
+	                $localStorage.ordersDashboardStatistics.LastThirtyDays.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -689,9 +712,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastNinyDays = {};
-	                    $localStorage.ordersDashboardStatistics.LastNinyDays.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastNinyDays = {};
+	                $localStorage.ordersDashboardStatistics.LastNinyDays.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);
@@ -703,9 +729,12 @@ angular.module(moduleName, ['virtoCommerce.catalogModule', 'virtoCommerce.pricin
 	            customerOrders.getDashboardStatistics({ start: dateStart.toISOString(), end: dateEnd.toISOString() }, function (data) {
 	                if (data.revenue.length > 0) {
 	                    data.amount = data.revenue[0].amount;
-	                    $localStorage.ordersDashboardStatistics.LastOneHundreEightyTwoDays = {};
-	                    $localStorage.ordersDashboardStatistics.LastOneHundreEightyTwoDays.TotalSales = data;
 	                }
+	                else {
+	                    data.revenue.push({ amount: 0, orderCount: 0 });
+	                }
+	                $localStorage.ordersDashboardStatistics.LastOneHundreEightyTwoDays = {};
+	                $localStorage.ordersDashboardStatistics.LastOneHundreEightyTwoDays.TotalSales = data;
 	            },
                 function (error) {
                     console.log(error);

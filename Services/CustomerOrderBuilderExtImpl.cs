@@ -40,30 +40,30 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
 
             customerOrder = _customerOrderService.GetByIds(new[] { customerOrder.Id }).FirstOrDefault();
 
-            ////Redistribute order line items to shipment if cart shipment items empty 
-            //var shipment = customerOrder.Shipments.FirstOrDefault();
-            //if (customerOrder.Shipments.Any() && shipment.Items.IsNullOrEmpty()) {
+            //Redistribute order line items to shipment if cart shipment items empty 
+            var shipment = customerOrder.Shipments.FirstOrDefault();
+            if (customerOrder.Shipments.Any() && shipment.Items.IsNullOrEmpty()) {
 
-            //    int i = 0;
-            //    foreach (var lineItem in customerOrder.Items) {
-            //        try {
-            //            shipment.Items = new List<orderModel.ShipmentItem>();
-            //            shipment.Items.Add(new orderModel.ShipmentItem { LineItemId = lineItem.Id, LineItem = lineItem, Quantity = lineItem.Quantity });
-            //        } catch (Exception e) {
-            //            Console.Write(e.Message);
-            //        }
+                int i = 0;
+                shipment.Items = new List<orderModel.ShipmentItem>();
+                foreach (var lineItem in customerOrder.Items) {
+                    try {
+                        shipment.Items.Add(new orderModel.ShipmentItem { LineItem = lineItem, Quantity = lineItem.Quantity });
+                    } catch (Exception e) {
+                        Console.Write(e.Message);
+                    }
 
-            //        i++;
-            //    }
-            //}
+                    i++;
+                }
+            }
 
-            //try {
-            //    _customerOrderService.SaveChanges(new[] { customerOrder });
-            //} catch (Exception ex) {
-            //    Console.Write(ex.Message);
-            //}
+            try {
+                _customerOrderService.SaveChanges(new[] { customerOrder });
+            } catch (Exception ex) {
+                Console.Write(ex.Message);
+            }
 
-            //customerOrder = _customerOrderService.GetByIds(new[] { customerOrder.Id }).FirstOrDefault();
+            customerOrder = _customerOrderService.GetByIds(new[] { customerOrder.Id }).FirstOrDefault();
 
             //TODO clone product configurations from line items that are and reassign them their new CPC number.
             foreach (var item in customerOrder.Items) {
@@ -108,7 +108,7 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
 
         protected override orderModel.CustomerOrder ConvertCartToOrder(cartModel.ShoppingCart cart) {
             var retVal = AbstractTypeFactory<orderModel.CustomerOrder>.TryCreateInstance();
-
+            retVal.ShoppingCartId = cart.Id;
             retVal.Comment = cart.Comment;
             retVal.Currency = cart.Currency;
             retVal.ChannelId = cart.ChannelId;
@@ -119,11 +119,18 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
             retVal.StoreId = cart.StoreId;
             retVal.TaxPercentRate = cart.TaxPercentRate;
             retVal.TaxType = cart.TaxType;
+            retVal.LanguageCode = cart.LanguageCode;
 
             retVal.Status = "New";
 
+            var cartLineItemsMap = new Dictionary<string, orderModel.LineItem>();
             if (cart.Items != null) {
-                retVal.Items = cart.Items.Select(x => ToOrderModel(x)).ToList();
+                retVal.Items = new List<orderModel.LineItem>();
+                foreach (var cartLineItem in cart.Items) {
+                    var orderLineItem = ToOrderModel(cartLineItem);
+                    retVal.Items.Add(orderLineItem);
+                    cartLineItemsMap.Add(cartLineItem.Id, orderLineItem);
+                }
             }
             if (cart.Discounts != null) {
                 retVal.Discounts = cart.Discounts.Select(x => ToOrderModel(x)).ToList();
@@ -134,24 +141,24 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
             }
 
             if (cart.Shipments != null) {
-                retVal.Shipments = cart.Shipments.Select(x => ToOrderModel(x)).ToList();
+                retVal.Shipments = new List<orderModel.Shipment>();
+                foreach (var cartShipment in cart.Shipments) {
+                    var shipment = ToOrderModel(cartShipment);
+                    if (!cartShipment.Items.IsNullOrEmpty()) {
+                        shipment.Items = new List<orderModel.ShipmentItem>();
+                        foreach (var cartShipmentItem in cartShipment.Items) {
+                            var shipmentItem = ToOrderModel(cartShipmentItem);
+                            if (cartLineItemsMap.ContainsKey(cartShipmentItem.LineItemId)) {
+                                shipmentItem.LineItem = cartLineItemsMap[cartShipmentItem.LineItemId];
+                                shipment.Items.Add(shipmentItem);
+                            }
+                        }
+                    }
+                    retVal.Shipments.Add(shipment);
+                }
                 //Add shipping address to order
                 retVal.Addresses.AddRange(retVal.Shipments.Where(x => x.DeliveryAddress != null).Select(x => x.DeliveryAddress));
-                //Redistribute order line items to shipment if cart shipment items empty 
-                //var shipment = retVal.Shipments.FirstOrDefault();
-                //if (shipment != null && shipment.Items.IsNullOrEmpty()) {
-                //    int i = 0;
-                //    foreach (var lineItem in cart.Items) {
-                //        try {
-                //            shipment.Items = new List<orderModel.ShipmentItem>();
-                //            shipment.Items.Add(new orderModel.ShipmentItem { LineItemId = lineItem.Id, Quantity = lineItem.Quantity });
-                //        } catch (Exception e) {
-                //            Console.Write(e.Message);
-                //        }
 
-                //        i++;
-                //    }
-                //}
             }
             if (cart.Payments != null) {
                 retVal.InPayments = new List<orderModel.PaymentIn>();
@@ -225,10 +232,7 @@ namespace VirtoCommerce.OrderExtModule.Web.Services {
             if (shipment.DeliveryAddress != null) {
                 retVal.DeliveryAddress = shipment.DeliveryAddress;
             }
-            //if (shipment.Items != null)
-            //{
-            //    retVal.Items = shipment.Items.Select(x => ToOrderModel(x)).ToList();
-            //}
+
             if (shipment.Discounts != null) {
                 retVal.Discounts = shipment.Discounts.Select(x => ToOrderModel(x)).ToList();
             }
