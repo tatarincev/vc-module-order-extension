@@ -126,7 +126,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.Domain, Version=2.20.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\VirtoCommerce.Domain.2.20.0\lib\net451\VirtoCommerce.Domain.dll</HintPath>
+      <HintPath>packages\VirtoCommerce.Domain.2.20.0\lib\net451\VirtoCommerce.Domain.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.Domain.ProductConfiguration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -134,7 +134,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.OrderModule.Data, Version=2.15.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\VirtoCommerce.OrderModule.Data.2.15.0\lib\net461\VirtoCommerce.OrderModule.Data.dll</HintPath>
+      <HintPath>packages\VirtoCommerce.OrderModule.Data.2.15.0\lib\net461\VirtoCommerce.OrderModule.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="VirtoCommerce.Platform.Core, Version=2.12.6.0, Culture=neutral, processorArchitecture=MSIL">
